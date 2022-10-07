@@ -5,9 +5,9 @@ const Home = () => {
     const postapi=[
         {
             "id":1,
-            "title":"LOREM IPSUM The classic latin",
-            "text":"The classic latin passage that just never gets old, enjoy as much (or as little) lorem ipsum as you can handle with our easy to use filler text generator",
-            "img": "https://loremflickr.com/640/360"
+            "title":"PLACEBEARD Built as a foil",
+            "text":"Built as a foil to placekitten, PlaceBeard.it offers something more earthy, more manly. Choose color or grayscale placeholder beards in every proportion for your next project.",
+            "img": "https://placebeard.it/640x360"
         },
         {
             "id":2,
@@ -36,7 +36,7 @@ const Home = () => {
                         <div className='post' key={post.id}>
                             <div className='img'>
                             <img  src={post.img} alt="" />
-                            </div>
+                            </div> 
                             <div className='content'>
                                 <Link className="title" to={`/post/${post.title}`}>
                                 <h1>{post.title}</h1>
