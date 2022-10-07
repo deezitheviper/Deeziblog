@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/img/viperlogo.png';
+import logo from '../assets/img/Deeziblog.png';
 import {Link} from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CreateIcon from '@mui/icons-material/Create';
@@ -10,15 +10,16 @@ import Tooltip from '@mui/material/Tooltip';
 
 const Header = () => {
     return (
+        <>
         <div className='navbar'>
             <div className='container'>
                 
                 <div><img className='logo' src={logo} alt="deeziblog" /></div>
                 <div className='links'>
                     
-                    <Link className='link'><h5>Python </h5></Link>
-                    <Link className='link'><h5>Javascript</h5></Link>
-                    <Link className='link'><h5>Offensive Security</h5></Link>
+                    <Link className='link'><h6>Python </h6></Link>
+                    <Link className='link'><h6>Javascript</h6></Link>
+                    <Link className='link'><h6>Offensive Security</h6></Link>
                     <Tooltip title="Profile">
                     <span><AccountCircleIcon/></span>
                     </Tooltip>
@@ -31,7 +32,10 @@ const Header = () => {
                 </div>
                 
             </div>
+   
         </div>
+      
+        </>
     );
 };
 

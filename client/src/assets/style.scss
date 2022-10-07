@@ -59,17 +59,114 @@ form{
     .link{
         text-decoration: none;
         color: inherit;
+        
+    }
+   
+    .offensive{
+        color: #f44250;
     }
     //navigation
     .navbar{
+        hr{
+            border: 0.08px solid #cbcaca;
+        }
         .container{
-            display: flex;
             padding: 10px 0px;
+            display: flex;
+            align-items: center;
             justify-content: space-between;
+        
+        .links{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .link{
+                color: #818181;
+            }
+        }
+        .logo{
+            padding-top: 10px;
+            height: 50px;
         }
 
+        .create{
+            color: rgb(255, 170, 59);
+
+            &:hover{
+                color: teal;
+                font-size: 30px;
+            }
+        }
+        span{
+            cursor: pointer;
+            //color: #4f4d4d;
+            color: #12ade2;
+           
+        }
+        h5{
+            color: #6b6969;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: capitalize;
+            .offensive{
+                color: #f44250;
+            }
+        }
+        h6{
+            color: #6b6969;
+            font-weight: 400;
+            font-size: 16px;
+            text-transform: capitalize;
+            .offensive{
+                color: #f44250;
+            }
+        }
+    }
     }
 
+    //Home
+    .home{
+        .posts{
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 150px;
+            .post{
+                display: flex;
+                gap: 100px;
+
+                &:nth-child(2n+1){
+                    flex-direction: row-reverse;
+                }
+                .img{
+                    flex: 2;
+                    img{
+                        width: 100%;
+                        max-height: 400px;
+                        object-fit: cover;
+                    }
+                }
+                .content{
+                    flex: 3;
+                }
+            }
+        }
+    }
+
+
+
+    //footer
+    .footer{
+        .logo{
+            height: 30px;
+        }
+        background-color: #e3e3e3;
+        margin-top: 100px;
+        padding: 20px;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+    }
     
 }
 }
