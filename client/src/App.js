@@ -2,7 +2,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Blog from "./pages/Blog";
+import Post from "./pages/Post";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
         element: <Write/>,
       },
       {
-        path: "/blog",
-        element: <Blog/>,
+        path: "/article/:id",
+        element: <Post/>,
       },
     ]
   },

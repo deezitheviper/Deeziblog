@@ -1,5 +1,6 @@
   $light-coral : rgb(255, 170, 59);
   $dark-coral: rgb(255, 153, 80);
+  $offensive: #f44250;
   //authentication
 .auth{
     background: linear-gradient(
@@ -70,7 +71,7 @@ form{
     }
    
     .offensive{
-        color: #f44250;
+        color: $offensive;
     }
     //navigation
     .navbar{
@@ -116,7 +117,7 @@ form{
             font-size: 16px;
             text-transform: capitalize;
             .offensive{
-                color: #f44250;
+                color: $offensive;
             }
         }
         h6{
@@ -125,7 +126,7 @@ form{
             font-size: 16px;
             text-transform: capitalize;
             .offensive{
-                color: #f44250;
+                color: $offensive;
             }
         }
     }
@@ -183,13 +184,79 @@ form{
         }
     }
 
+//Article
+    .article{
+        display: flex;
+        margin-top: 50px;
+        gap: 50px;
+        .content-body{
+           
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            flex: 5;
+            img{
+                object-fit: cover;
+                width: 100%;
+                height: 300px;
+            }
+            .edit{
+                display: flex;
+            
+                gap: 5px;
 
+                .editIcon{
+                    color: $light-coral;
+                    cursor: pointer;
+                 
+                }
+                .deleteIcon{
+                    color: $offensive;
+                    cursor: pointer;
+                }
+                
+            }
+            .profile{
+                
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 14px;
+                img{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 60%;
+                    object-fit: cover;
+                }
+                .info{
+                    span{
+                        font-weight: 400;
+                        font-size: 16px;
+                        
+                        &::first-letter{
+                            text-transform: uppercase;
+                          
+                    }
+                 
+                    }
+                    p{
+                        color:rgb(117 117 117);
+                       }
+                    
+                }
+            }
+        }
+        .menu{
+            flex: 2;
+        }
+    }
 
     //footer
     .footer{
         .logo{
             height: 30px;
         }
+        
         background-color: #e3e3e3;
         margin-top: 100px;
         padding: 20px;
