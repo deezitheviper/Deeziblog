@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Write from "./pages/Write";
 import Layout from "./components/Layout";
 import './assets/style.scss';
+import 'react-quill/dist/quill.snow.css';
 
 const router = createBrowserRouter([
   {

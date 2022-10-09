@@ -75,6 +75,7 @@ form{
     }
     //navigation
     .navbar{
+        margin-bottom: 50px;
         hr{
             border: 0.08px solid #cbcaca;
         }
@@ -315,6 +316,93 @@ form{
             }
         }
     }
+
+//create
+.create{
+
+    display: flex;
+    gap: 20px;
+    
+
+    .content{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        flex: 5;
+
+        input{
+            padding: 10px;
+            
+
+        }
+
+        
+
+        .editorContainer{
+            height: 300px;
+            overflow: scroll;
+            .editor{
+                
+                height: 100% ;
+            }
+        }
+    }
+    .sidebar{
+        flex:2;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .item{
+           
+            padding: 10px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 12px;
+
+            h1{
+                font-size: 18px;
+                color: rgb(41 41 41);
+                font-weight: 600;
+            }
+            .file{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            .buttons{
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+
+                :first-child{
+                    background-color: #ffffff;
+                    padding: 5px;
+                    border: 1px solid $light-coral;
+                    border-radius: 5px;
+                    font-size: 13px;
+                    color: $dark-coral;
+                }
+                :last-child{
+                  
+                    padding: 10px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #128be2;
+                    color: #ffffff;
+                }
+            }
+            .cat{
+                display: flex;
+                gap: 10px;
+            
+            }
+        }
+    }
+}
+
+
 
     //footer
     .footer{
