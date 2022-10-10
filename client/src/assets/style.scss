@@ -396,7 +396,9 @@ form{
             .cat{
                 display: flex;
                 gap: 10px;
-            
+                input[type="radio" i] {
+                    color: #128be2;
+                }
             }
         }
     }

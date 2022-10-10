@@ -20,6 +20,7 @@ const Header = () => {
                     <Link className='link'><h6>Python </h6></Link>
                     <Link className='link'><h6>Javascript</h6></Link>
                     <Link className='link'><h6>Offensive Security</h6></Link>
+                    <Link className='link'><h6>Machine Learning</h6></Link>
                     <Tooltip title="Profile">
                     <span><AccountCircleIcon/></span>
                     </Tooltip>
