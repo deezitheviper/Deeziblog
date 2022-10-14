@@ -40,3 +40,10 @@ export const loginController = async (req, res, next) => {
         httpOnly: true,
     }).status(200).json({...otherDetails})
 }
+
+export const logout = (req, res) => {
+    res.clearCookie('accesstoken',{
+        sameSite:"none",
+        secure:true
+    }).status(200).json("User has been logged out")
+}
