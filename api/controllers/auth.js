@@ -4,14 +4,14 @@ import { createError } from '../config/error.js';
 import jwt from "jsonwebtoken";
 
 
-export const registerController = async (req, res) => {
+export const registerController = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
     
     const newUser = new User({
         ...req.body,
         username: req.body.username.toLowerCase(),
-        email: req.body.username.toLowerCase(),
+        email: req.body.email.toLowerCase(),
         password: hash
     })
     await newUser.save()
