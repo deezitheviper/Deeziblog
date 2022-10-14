@@ -19,7 +19,7 @@ const Register = () => {
     const submitChange = async e => {
         e.preventDefault()
         const res = await instance.post('auth/register', inputs)
-        .catch(err => setErr(err))
+        .catch(err => setErr(err.response.data.message))
         console.log(res)
         navigate('/login')
     }

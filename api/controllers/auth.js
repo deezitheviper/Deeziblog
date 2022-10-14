@@ -23,13 +23,12 @@ export const registerController = async (req, res) => {
 
 export const loginController = async (req, res, next) => {
     let user = null;
-    const username = req.body.username.toLowerCase()
-    const email = req.body.email.toLowerCase()
-    user = await User.findOne({username:username})
+    const id = req.body.id.toLowerCase();
+    user = await User.findOne({username:id})
     .catch(err => next(err))
     if(!user){
         user = await User.findOne({
-            email:email
+            email:id
         }).catch(err => next(err))
     }
     if(!user) return(createError(404,"This account does not exist"))

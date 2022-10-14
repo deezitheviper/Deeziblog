@@ -1,14 +1,33 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
+import {instance} from '../config/axios.js';
+
 
 const Login = () => {
+    const [inputs, setInputs] = useState({
+        'id':"",
+        'password': ""
+    });
+    const [err, setErr] = useState("");
+
+    const handleChange = e => {
+        setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
+    }
+    const handleSubmit = async e => {
+        e.preventDefault()
+        const res = await instance.post('auth/login', inputs)
+        .catch(err => setErr(err.response.data.message))
+        console.log('omo')
+        console.log(res)
+    }
     return (
         <div className='auth'>
             <h1>Login</h1>
             <form>
-                <input type='text' placeholder="username"/>
-                <input type="password" placeholder="password"/>
-                <button>Login</button>
+            {err && <p className='danger'>{err}</p>}
+                <input type='text' placeholder="username or email" name="id" onChange={handleChange} />
+                <input type="password" placeholder="password" name="password" onChange={handleChange}/>
+                <button onClick={handleSubmit}> Login </button>
                 <span>No account? <Link to="/register">Register</Link></span>
             </form>
         </div>
