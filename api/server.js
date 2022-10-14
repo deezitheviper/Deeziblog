@@ -4,14 +4,20 @@ import mongoose from "mongoose";
 import postRouter from './routes/Post.js';
 import userRouter from './routes/User.js';
 import authRouter from './routes/Auth.js';
-
-
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 const app = express();
 
 dotenv.config()
 
 app.use(express.json())
+app.use(cookieParser())
+if(process.env.NODE_ENV === 'dev'){
+    app.use(cors({
+        origin:process.env.CLIENT_URL
+    }))
+}
 
 //Database
 const connect = async  () => {
