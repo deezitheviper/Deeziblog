@@ -1,6 +1,7 @@
-import React,{useState} from 'react';
-import { Link } from 'react-router-dom';
+import React,{useContext, useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {instance} from '../config/axios.js';
+import { AuthContext } from '../context/authContext.js';
 
 
 const Login = () => {
@@ -9,16 +10,19 @@ const Login = () => {
         'password': ""
     });
     const [err, setErr] = useState("");
+    const {login, currentUser} = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleChange = e => {
         setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
     }
     const handleSubmit = async e => {
         e.preventDefault()
-        const res = await instance.post('auth/login', inputs)
-        .catch(err => setErr(err.response.data.message))
-        console.log('omo')
-        console.log(res)
+        const res = await login(inputs)
+        .catch(err => setErr(err.response.data.message));
+        navigate('/')
+        console.log(currentUser)
     }
     return (
         <div className='auth'>
