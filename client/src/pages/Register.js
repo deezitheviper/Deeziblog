@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import {instance} from '../config/axios.js';
+import instance from '../config/axios.js';
 
 const Register = () => {
     const [inputs, setInputs] = useState({
