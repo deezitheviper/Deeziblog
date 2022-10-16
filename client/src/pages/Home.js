@@ -1,7 +1,12 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import {Link, useLocation} from "react-router-dom";
+import instance from '../config/axios.js';
 
 const Home = () => {
+    const [posts, setPosts] = useState([]);
+
+    
+
     const postapi=[
         {
             "id":1,
@@ -28,6 +33,16 @@ const Home = () => {
             "img": "https://loremflickr.com/640/360"
         }
     ]
+
+    useEffect(()=> {
+        const fetchPost = async () => {
+            const res = await instance.get('/posts')
+            .catch(err => console.log(err))
+            setPosts(res.data)
+
+        }
+        fetchPost();
+    },[])
     return (
         <div className='home'>
             <div className='posts'>
