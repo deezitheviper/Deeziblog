@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import {instance }from '../config/axios.js';
+import instance from '../config/axios.js';
 
 
 
