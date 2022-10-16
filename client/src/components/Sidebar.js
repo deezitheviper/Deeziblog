@@ -1,6 +1,20 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
+import instance from '../config/axios.js';
 
-const Sidebar = () => {
+
+
+const Sidebar = ({cat}) => {
+    const [post, setPost] = useState()
+
+    useEffect(() => {
+        const getCatPost = async () => {
+        const res = await instance.get(`/posts/?cat=${cat}`)
+        .catch(err => console.log(err))
+        setPost(res.data)
+        }
+        getCatPost();
+    },[cat])
+
     return (
         <div >
             
