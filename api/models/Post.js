@@ -13,6 +13,11 @@ const postSchema = new Schema({
         required: true,
         unique: true
     },
+    cat: {
+        type:String,
+        required: true,
+        unique: true
+    },
     body: {
         type:String,
         required: true,
