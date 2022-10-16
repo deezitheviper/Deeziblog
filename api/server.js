@@ -46,7 +46,7 @@ app.get('/', (req, res)=>{
 })
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
-app.use('/api/post', postRouter)
+app.use('/api/posts', postRouter)
 
 app.use((err,req,res,next) => {
     const errStatus = err.status || 500
