@@ -8,6 +8,10 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Write from "./pages/Write";
 import Layout from "./components/Layout";
+import Python from "./pages/categories/Python";
+import Javascript from "./pages/categories/Javascript";
+import MachineLearning from "./pages/categories/ML";
+import OS from "./pages/categories/OS";
 import './assets/style.scss';
 import 'react-quill/dist/quill.snow.css';
 
@@ -19,6 +23,22 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home/>,
+      },
+      {
+        path: "/Python",
+        element: <Python />,
+      },
+      {
+        path: "/Javascript",
+        element: <Javascript />,
+      },
+      {
+        path: "/ML",
+        element: <MachineLearning />,
+      },
+      {
+        path: "/Offensivesec",
+        element: <OS />,
       },
       {
         path: "/create",

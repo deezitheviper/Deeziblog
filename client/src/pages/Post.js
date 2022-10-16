@@ -1,58 +1,76 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLocation, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import axios from 'axios';
 import Sidebar from '../components/Sidebar';
+import instance from '../config/axios';
+import moment from 'moment';
+import { AuthContext } from '../context/authContext.js';
 
 
 const Post = () => {
    
-const [content, setContent] = useState()
+const [post, setPost] = useState()
+const {currentUser} = useContext(AuthContext)
+const location = useLocation()
+const postId = location.pathname.split("/")[2]
 const options = {
   method: 'GET',
   url: 'https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text',
 };
 
-
+const handleDelete = async () => {
+   const res =  await instance.delete(`/posts/${postId}`)
+   .catch(err => console.log(err))
+   console.log(res)
+}
 
 useEffect(() => {
-    axios.request(options).then(res => {
-        setContent(res.data)
+    const fetchApi = () => {
+    instance.request(options).then(res => {
+        setPost(res.data)
     }).catch(err  => {
         console(err);
     });
-}, [])
+}
+const getPost = async () => {
+    const res = await instance.get('/posts', {id:postId})
+    .catch(err => console.log(err))
+    setPost(res.data)
+}
+
+fetchApi()
+}, []);
     return (
         <div className='article'>
             
-             <div className='content-body'>
+             <div className='post-body'>
            
-             <h1>{content?.slice(0,70)}</h1>
-                <img src="https://placebeard.it/640x360" alt=""/>
+             <h1>{post?.slice(0,70)}</h1>
+                <img src={post?.img} alt=""/>
              
                 <div className='profile'>
                
                <img src='https://www.fillmurray.com/640/360' alt="account" />
                <div className='info'>
 
-                   <span>John</span>    
-                   <p>Posted 2 days ago</p>
+                   <span>{post?.author}</span>    
+                   <p>Posted {moment(post?.date).fromNow()}</p>
                    
                </div> 
-            
+             {currentUser.username === post.username && (
                <div className='edit'>
                <span className='editIcon'><Link to={'/edit'}><CreateIcon/></Link></span>
-               <span className='deleteIcon'><Link to={'/delete'}><DeleteIcon/></Link></span>
-               </div>
+               <span className='deleteIcon'><Link onClick={handleDelete}><DeleteIcon/></Link></span>
+               </div>)}
            </div>
-                <div className='content'>
+                <div className='post'>
                    
-                   {content}
+                   {post.body}
                 </div>
              </div>
            <div>
-            <Sidebar/>
+            <Sidebar cat={post.cat}/>
            </div>
         </div>
     );
