@@ -17,13 +17,13 @@ const Header = () => {
         <div className='navbar'>
             <div className='container'>
                 
-                <div><img className='logo' src={logo} alt="deeziblog" /></div>
+                <div><Link to="/"><img className='logo' src={logo} alt="deeziblog" /></Link></div>
                 <div className='links'>
                     
-                    <Link className='link'><h6>Python </h6></Link>
-                    <Link className='link'><h6>Javascript</h6></Link>
-                    <Link className='link'><h6>Offensive Security</h6></Link>
-                    <Link className='link'><h6>Machine Learning</h6></Link>
+                    <Link to="/Python" className='link'><h6>Python </h6></Link>
+                    <Link to="/Javascript" className='link'><h6>Javascript</h6></Link>
+                    <Link to="/OffensiveSec" className='link'><h6>Offensive Security</h6></Link>
+                    <Link to="/ML" className='link'><h6>Machine Learning</h6></Link>
                     {currentUser?
                     <>
                     <Tooltip title={`${currentUser?.username}`}>
