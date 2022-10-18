@@ -9,11 +9,24 @@ const Create = () => {
     const state = useLocation().state
     const {currentUser} = useContext(AuthContext)
     const [content, setContent] = useState( state?.content || "")
+    const slugify = str =>
+        str
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/[\s_-]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+
     const [inputs , setInput] = useState({
         title: state?.title || "",
         cat: state?.cat ||  "",
-        img: state?.img || null
+        img: state?.img || null,
     })
+
+    const getText = (html) => {
+        const doc = new DOMParser().parseFromString(html, "text/html")
+        return doc.body.textContent
+    }
 
     const upload = async () => {
         const formData = new FormData();
@@ -38,19 +51,17 @@ const Create = () => {
         }
         else{
            const res = await instance.post('/posts/createPost',{...inputs,
-            body:content,
+            body:getText(content),
             authur: currentUser.username,
-            img:imgurl
+            img:imgurl,
+            slug:slugify(inputs.title)
         })
             .catch(err => console.log(err.response.data)) 
             console.log(res.data)
     }
 }
 
-    const getText = (html) => {
-        const doc = new DOMParser().parseFromString(html, "text/html")
-        return doc.body.textContent
-    }
+  
 
 
     return (

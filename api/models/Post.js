@@ -26,6 +26,11 @@ const postSchema = new Schema({
         required: true,
         unique: true
     },
+    slug:{
+        type:String,
+        required: true,
+        unique: true
+    },
     comments: [{ body: String, date: Date }],
     date: { type: Date, default: Date.now, required:true },
     hidden: Boolean,

@@ -156,7 +156,7 @@ form{
                     &::after{
                         content: "";
                         width: 100%;
-                        height: 100%;
+                        height: 80%;
                         background-color: #12aee285;
                         position: absolute;
                         top: 20px;
@@ -174,8 +174,11 @@ form{
                     display: flex;
                     flex-direction: column;
                     justify-content: space-around;
-                   
+                   p{
+                    margin-top: 10px;
+                   }
                    button{
+                    margin-top: 20px;
                     width: max-content;
                     background-color: $light-coral;
                     border: none;

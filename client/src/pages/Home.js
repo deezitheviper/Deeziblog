@@ -3,9 +3,14 @@ import {Link, useLocation} from "react-router-dom";
 import instance from '../config/axios.js';
 
 const Home = () => {
-    const [posts, setPosts] = useState([]);
-
-    
+    const [posts, setPosts] = useState();
+    const slugify = str =>
+    str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 
     const postapi=[
         {
@@ -39,29 +44,31 @@ const Home = () => {
             const res = await instance.get('/posts')
             .catch(err => console.log(err))
             setPosts(res.data)
-
         }
         fetchPost();
     },[])
+
     return (
         <div className='home'>
             <div className='posts'>
+
                 {
-                    postapi.map(post => (
-                        <div className='post' key={post.id}>
+                   
+                    posts?.map(post => (
+                        <div className='post' key={post?.id}>
                             <div className='img'>
-                            <img  src={post.img} alt="" />
+                            <img  src={`../upload/${post?.img}`} alt="" />
                             </div> 
                             <div className='content'>
-                                <Link className="title" to={`/post/${post.title}`}>
-                                <h1>{post.title}</h1>
+                                <Link className="title" to={`/post/${slugify(post?.title)}`}>
+                                <h1>{post?.title}</h1>
                                 </Link>  
-                                <p>{post.text.slice(0, 400)}</p>   
+                                <p>{post?.body.slice(0, 400)}</p>   
                                <button>Read more</button>
                             </div>
                         </div>
                     ))
-                }
+                   }
             </div>
              
         </div>
