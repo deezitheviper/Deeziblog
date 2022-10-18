@@ -14,7 +14,7 @@ export const getCatPost = async (req, res, next) => {
 } 
 
 export const getPost = async (req, res, next) => {
-    const post = await Post.findById(req.params.id)
+    const post = await Post.find({slug:req.params.id})
     .catch(err => next(err))
     res.status(200).json(post)
 }

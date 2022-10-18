@@ -1,30 +1,36 @@
 import React, { useEffect, useState, useLocation, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Sidebar from '../components/Sidebar';
 import instance from '../config/axios';
 import moment from 'moment';
 import { AuthContext } from '../context/authContext.js';
+import avatar from '../assets/img/avatar.png';
+import parse from "html-react-parser";
+
 
 
 const Post = () => {
    
-const [post, setPost] = useState()
+const [post, setPost] = useState({})
 const {currentUser} = useContext(AuthContext)
-const location = useLocation()
-const postId = location.pathname.split("/")[2]
+const params = useParams()
 const options = {
   method: 'GET',
   url: 'https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text',
 };
 
 const handleDelete = async () => {
-   const res =  await instance.delete(`/posts/${postId}`)
+   const res =  await instance.delete(`/posts/${params.slug}`)
    .catch(err => console.log(err))
    console.log(res)
 }
 
+const getText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html")
+    return doc.body.textContent
+}
 useEffect(() => {
     const fetchApi = () => {
     instance.request(options).then(res => {
@@ -34,31 +40,34 @@ useEffect(() => {
     });
 }
 const getPost = async () => {
-    const res = await instance.get('/posts', {id:postId})
+    const res = await instance.get(`/posts/${params.slug}`)
     .catch(err => console.log(err))
-    setPost(res.data)
+    setPost(res.data[0])
 }
 
-fetchApi()
+getPost()
 }, []);
     return (
         <div className='article'>
             
              <div className='post-body'>
-           
-             <h1>{post?.slice(0,70)}</h1>
-                <img src={post?.img} alt=""/>
+           {console.log(currentUser)}
+             <h1>{post?.title}</h1>
+                <img src={`../upload/${post?.img}`} alt=""/>
              
                 <div className='profile'>
-               
+               {currentUser?.profilepic?
                <img src='https://www.fillmurray.com/640/360' alt="account" />
+               :
+               <img src={avatar} alt="account" />
+}
                <div className='info'>
 
-                   <span>{post?.author}</span>    
+                   <span>{post?.authur}</span>    
                    <p>Posted {moment(post?.date).fromNow()}</p>
                    
                </div> 
-             {currentUser.username === post.username && (
+             {currentUser?.username === post?.authur && (
                <div className='edit'>
                <span className='editIcon'><Link to={'/edit'} state={post}><CreateIcon/></Link></span>
                <span className='deleteIcon'><Link onClick={handleDelete}><DeleteIcon/></Link></span>
@@ -66,11 +75,15 @@ fetchApi()
            </div>
                 <div className='post'>
                    
-                   {post.body}
+                   {post?
+                   parse(` ${post.body}`)
+                   :
+                   ""
+                }
                 </div>
              </div>
            <div>
-            <Sidebar cat={post.cat}/>
+            <Sidebar cat={post?.cat}/>
            </div>
         </div>
     );

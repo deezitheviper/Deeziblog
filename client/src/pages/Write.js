@@ -23,10 +23,7 @@ const Create = () => {
         img: state?.img || null,
     })
 
-    const getText = (html) => {
-        const doc = new DOMParser().parseFromString(html, "text/html")
-        return doc.body.textContent
-    }
+  
 
     const upload = async () => {
         const formData = new FormData();
@@ -51,7 +48,7 @@ const Create = () => {
         }
         else{
            const res = await instance.post('/posts/createPost',{...inputs,
-            body:getText(content),
+            body:content,
             authur: currentUser.username,
             img:imgurl,
             slug:slugify(inputs.title)
@@ -69,7 +66,7 @@ const Create = () => {
              <div className='content'>
                 <input type="text" defaultValue={inputs.title} placeholder='Title' name="title" onChange={handleChange} />
                 <div className='editorContainer'>
-                    <ReactQuill  className="editor" theme="snow" value={getText(content)} onChange={setContent}/>
+                    <ReactQuill  className="editor" theme="snow" value={content} onChange={setContent}/>
                 </div>
              </div>
              <div className='sidebar'>

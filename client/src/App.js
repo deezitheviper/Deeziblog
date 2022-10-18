@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         element: <Write/>,
       },
       {
-        path: "/article/:id",
+        path: "/:cat/:slug",
         element: <Post/>,
       },
     ]
