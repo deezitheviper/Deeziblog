@@ -60,11 +60,11 @@ const Home = () => {
                             <img  src={`../upload/${post?.img}`} alt="" />
                             </div> 
                             <div className='content'>
-                                <Link className="title" to={`/post/${slugify(post?.title)}`}>
+                                <Link className="title" to={`/post/${post?.slug}`}>
                                 <h1>{post?.title}</h1>
                                 </Link>  
-                                <p>{post?.body.slice(0, 400)}</p>   
-                               <button>Read more</button>
+                                <p>{`${post?.body.slice(0, 400)}...`}</p>   
+                               <Link className='btn' to={`/post/${post?.slug}`}>Read more</Link>
                             </div>
                         </div>
                     ))
