@@ -6,6 +6,10 @@ import userRouter from './routes/User.js';
 import authRouter from './routes/Auth.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import multer from 'multer';
+
+
+
 
 const app = express();
 
@@ -47,6 +51,22 @@ app.get('/', (req, res)=>{
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../client/public/upload')
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now()+file.originalname)
+    }
+  })
+  
+const upload = multer({ storage})
+app.post('/api/upload', upload.single('img'), function (req, res) {
+    const file = req.file.filename
+    res.status(200).json(file)
+  })
+  
 
 app.use((err,req,res,next) => {
     const errStatus = err.status || 500

@@ -60,7 +60,7 @@ fetchApi()
                </div> 
              {currentUser.username === post.username && (
                <div className='edit'>
-               <span className='editIcon'><Link to={'/edit'}><CreateIcon/></Link></span>
+               <span className='editIcon'><Link to={'/edit'} state={post}><CreateIcon/></Link></span>
                <span className='deleteIcon'><Link onClick={handleDelete}><DeleteIcon/></Link></span>
                </div>)}
            </div>

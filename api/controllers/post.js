@@ -6,6 +6,7 @@ export const getPosts = async (req, res, next) => {
     res.status(200).json(posts)
 } 
 
+
 export const getCatPost = async (req, res, next) => {
     const posts = await Post.find({cat:req.params.cat})
     .catch(err => next(err))
@@ -19,6 +20,7 @@ export const getPost = async (req, res, next) => {
 }
 
 export const createPost = async (req, res, next) => {
+    console.log(req.body)
     const post = new Post(req.body)
     const savedPost =  await post.save()
     .catch(err => next(err))
@@ -31,7 +33,7 @@ export const updatePost = async (req, res, next) => {
     },{
         new:true
     }).catch(err => next(err))
-    res.status(200).json(updatedPost)
+    res.status(200).json("Post has been updated")
 }
 
 export const deletePost = async (req, res, next) => {

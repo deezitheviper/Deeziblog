@@ -8,10 +8,13 @@ const postSchema = new Schema({
         required: true,
         unique: true
     },
-    author: {
+    authur: {
         type:String,
         required: true,
         unique: true
+    },
+    img:{
+        type:String,
     },
     cat: {
         type:String,
