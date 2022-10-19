@@ -293,11 +293,9 @@ form{
                                 font-weight: 400;
                                 font-size: 13px;
                                 color: rgb(41 41 41);
-                                
-                                &::first-letter{
-                                    text-transform: uppercase;
-                                  
-                            }
+                                text-transform: capitalize;
+                                 
+                            
                          
                             }
                             p{
@@ -359,6 +357,7 @@ form{
         flex-direction: column;
         gap: 20px;
 
+       
         .item{
            
             padding: 10px;
