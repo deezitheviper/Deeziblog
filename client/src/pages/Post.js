@@ -51,6 +51,7 @@ getPost()
         <div className='article'>
             
              <div className='post-body'>
+            
              <h1>{post?.title}</h1>
                 <img src={`../upload/${post?.img}`} alt=""/>
              
@@ -77,7 +78,7 @@ getPost()
                    {post?
                    parse(` ${post.body}`)
                    :
-                   ""
+                   "loading.."
                 }
                 </div>
              </div>

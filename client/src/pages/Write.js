@@ -2,11 +2,13 @@ import { TableBody } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useLocation } from 'react-router-dom';
-import instance from '../config/axios.js'
+import instance from '../config/axios.js';
+import {toast } from 'react-toastify';
 import { AuthContext } from '../context/authContext.js';
 
 const Create = () => {
     const state = useLocation().state
+    const [err, setErr] = useState({})
     const {currentUser} = useContext(AuthContext)
     const [content, setContent] = useState( state?.body || "")
     const slugify = str =>
@@ -23,7 +25,28 @@ const Create = () => {
         img: state?.img || "",
     })
 
-  
+    const checkForm = () => {
+        let err = {}
+        let formIsValid = true
+
+        if(!inputs.title){
+            formIsValid = false;
+            err["title"] = "Title is required"  
+        }
+
+        if(!content){
+            formIsValid = false;
+            err["content"] = "Content is required"  
+        }
+        if(!inputs.img){
+            formIsValid = false;
+            err["img"] = "Image is required"  
+        }
+
+        setErr(err)
+        return formIsValid
+        
+    }
 
     const upload = async () => {
         const formData = new FormData();
@@ -38,6 +61,7 @@ const Create = () => {
 
     const handlePublish = async (e) => {
         e.preventDefault()
+        if(checkForm()){
       
         if (state){
             const res = await instance.put(`/posts/${state.slug}`,{...inputs,
@@ -59,6 +83,9 @@ const Create = () => {
             .catch(err => console.log(err.response.data)) 
             console.log(res.data)
     }
+}else{
+    checkForm()
+}
 }
 
   
@@ -67,20 +94,29 @@ const Create = () => {
     return (
         <div className='create'>
              <div className='content'>
+             
+             {err["title"] && <p className='danger'>{err["title"]}</p>}
                 <input type="text" defaultValue={inputs.title} placeholder='Title' name="title" onChange={handleChange} />
+                {err["content"] && <p className='danger'>{err["content"]}</p>}
                 <div className='editorContainer'>
+                
                     <ReactQuill  className="editor" theme="snow" value={content} onChange={setContent}/>
                 </div>
              </div>
              <div className='sidebar'>
                 <div className='item'>
                     <h1>Publish</h1>
+                    <br/>
                     <span><b>Status :</b> Draft</span>
                     <span><b>Visibility :</b> Public</span>
-                   
+                   <br/>
                     <label>Upload Image</label>
+                 <br/>
                     <input  onChange={e => setInput(prev => ({...prev, img:e.target.files[0]}))} type="file"/>
                     <br/>
+                    {err["img"] && <p className='danger'>{err["img"]}</p>}
+                    <br/>
+
                     <div className='buttons'>
                         <button >Save as Draft</button>
                         <button onClick={handlePublish}>Publish</button>

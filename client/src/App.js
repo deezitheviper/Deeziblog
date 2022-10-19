@@ -14,6 +14,9 @@ import MachineLearning from "./pages/categories/ML";
 import OS from "./pages/categories/OS";
 import './assets/style.scss';
 import 'react-quill/dist/quill.snow.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 
 const router = createBrowserRouter([
   {
@@ -63,8 +66,10 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-  
+    <>
+    <ToastContainer />
      <RouterProvider router={router} />
+     </>
    
   );
 }
