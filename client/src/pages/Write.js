@@ -8,7 +8,7 @@ import { AuthContext } from '../context/authContext.js';
 const Create = () => {
     const state = useLocation().state
     const {currentUser} = useContext(AuthContext)
-    const [content, setContent] = useState( state?.content || "")
+    const [content, setContent] = useState( state?.body || "")
     const slugify = str =>
         str
             .toLowerCase()
@@ -20,7 +20,7 @@ const Create = () => {
     const [inputs , setInput] = useState({
         title: state?.title || "",
         cat: state?.cat ||  "",
-        img: state?.img || null,
+        img: state?.img || "",
     })
 
   
@@ -33,20 +33,23 @@ const Create = () => {
         return res.data
     }
     const handleChange = e => {
-    
-            setInput(prev => ({...prev, [e.target.name]: e.target.value}))
-
+        setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
     const handlePublish = async (e) => {
         e.preventDefault()
-        const imgurl = await upload()
-        .catch(err => console.log(err))
+      
         if (state){
-            await instance.put(`/posts/${state.id}`)
+            const res = await instance.put(`/posts/${state.slug}`,{...inputs,
+                body:content,
+                img: inputs.img,
+                slug:slugify(inputs.title)})
             .catch(err => console.log(err.response.data)) 
+            console.log(res)
         }
         else{
+           const imgurl = await upload()
+           .catch(err => console.log(err))
            const res = await instance.post('/posts/createPost',{...inputs,
             body:content,
             authur: currentUser.username,

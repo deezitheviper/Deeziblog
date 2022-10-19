@@ -28,12 +28,13 @@ export const createPost = async (req, res, next) => {
 }
 
 export const updatePost = async (req, res, next) => {
-    const updatedPost =  await Post.findByIdAndUpdate(req.params.id,{
+    const updatedPost =  await Post.findOneAndUpdate({slug:req.params.slug},{
         $set:req.body
     },{
         new:true
-    }).catch(err => next(err))
-    res.status(200).json("Post has been updated")
+    }).catch(err => res.status(500).json(err))
+    console.log(updatePost)
+    res.status(200).json(updatedPost)
 }
 
 export const deletePost = async (req, res, next) => {

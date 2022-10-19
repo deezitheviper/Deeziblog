@@ -51,7 +51,6 @@ getPost()
         <div className='article'>
             
              <div className='post-body'>
-           {console.log(currentUser)}
              <h1>{post?.title}</h1>
                 <img src={`../upload/${post?.img}`} alt=""/>
              
@@ -69,7 +68,7 @@ getPost()
                </div> 
              {currentUser?.username === post?.authur && (
                <div className='edit'>
-               <span className='editIcon'><Link to={'/edit'} state={post}><CreateIcon/></Link></span>
+               <span className='editIcon'><Link to={'/create'} state={post}><CreateIcon/></Link></span>
                <span className='deleteIcon'><Link onClick={handleDelete}><DeleteIcon/></Link></span>
                </div>)}
            </div>
