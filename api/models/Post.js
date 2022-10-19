@@ -11,7 +11,6 @@ const postSchema = new Schema({
     authur: {
         type:String,
         required: true,
-        unique: true
     },
     img:{
         type:String,
@@ -19,12 +18,10 @@ const postSchema = new Schema({
     cat: {
         type:String,
         required: true,
-        unique: true
     },
     body: {
         type:String,
         required: true,
-        unique: true
     },
     slug:{
         type:String,

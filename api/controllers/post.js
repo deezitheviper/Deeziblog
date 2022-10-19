@@ -1,7 +1,7 @@
 import Post from '../models/Post.js';
 
 export const getPosts = async (req, res, next) => {
-    const posts = await Post.find()
+    const posts = await Post.find().sort({createdAt: 'desc'})
     .catch(err => next(err))
     res.status(200).json(posts)
 } 
@@ -20,7 +20,6 @@ export const getPost = async (req, res, next) => {
 }
 
 export const createPost = async (req, res, next) => {
-    console.log(req.body)
     const post = new Post(req.body)
     const savedPost =  await post.save()
     .catch(err => next(err))
