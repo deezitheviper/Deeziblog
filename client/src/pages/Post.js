@@ -7,7 +7,7 @@ import instance from '../config/axios';
 import moment from 'moment';
 import { AuthContext } from '../context/authContext.js';
 import avatar from '../assets/img/avatar.png';
-import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 
 
@@ -75,11 +75,9 @@ getPost()
            </div>
                 <div className='post'>
                    
-                   {post?
-                   parse(` ${post.body}`)
-                   :
-                   "loading.."
-                }
+                <p dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post.body)
+          }} />   
                 </div>
              </div>
            <div>
