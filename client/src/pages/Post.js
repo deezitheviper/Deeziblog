@@ -81,7 +81,7 @@ getPost()
                 </div>
              </div>
            <div>
-            <Sidebar cat={post?.cat}/>
+            <Sidebar post={post}/>
            </div>
         </div>
     );

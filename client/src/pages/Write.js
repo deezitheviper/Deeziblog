@@ -1,7 +1,7 @@
 import { TableBody } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import ReactQuill from 'react-quill';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import instance from '../config/axios.js';
 import {toast } from 'react-toastify';
 import { AuthContext } from '../context/authContext.js';
@@ -11,6 +11,9 @@ const Create = () => {
     const [err, setErr] = useState({})
     const {currentUser} = useContext(AuthContext)
     const [content, setContent] = useState( state?.body || "")
+
+    const navigate = useNavigate();
+
     const slugify = str =>
         str
             .toLowerCase()
@@ -69,7 +72,7 @@ const Create = () => {
                 img: inputs.img,
                 slug:slugify(inputs.title)})
             .catch(err => console.log(err.response.data)) 
-            console.log(res)
+           
         }
         else{
            const imgurl = await upload()
@@ -81,8 +84,8 @@ const Create = () => {
             slug:slugify(inputs.title)
         })
             .catch(err => console.log(err.response.data)) 
-            console.log(res.data)
     }
+    navigate('/')
 }else{
     checkForm()
 }

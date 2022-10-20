@@ -8,7 +8,7 @@ export const getPosts = async (req, res, next) => {
 
 
 export const getCatPost = async (req, res, next) => {
-    const posts = await Post.find({cat:req.params.cat})
+    const posts = await Post.find({_id:{$ne:`${req.params.id}`}},{cat: req.params.cat })
     .catch(err => next(err))
     res.status(200).json(posts)
 } 
