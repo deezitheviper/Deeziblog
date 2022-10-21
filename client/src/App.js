@@ -11,6 +11,7 @@ import Layout from "./components/Layout";
 import Python from "./pages/categories/Python";
 import Javascript from "./pages/categories/Javascript";
 import MachineLearning from "./pages/categories/ML";
+import Posts from "./pages/Posts";
 import OS from "./pages/categories/OS";
 import './assets/style.scss';
 import 'react-quill/dist/quill.snow.css';
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home/>,
+      },
+      {
+        path: "/Search",
+        element: <Posts/>,
       },
       {
         path: "/Python",

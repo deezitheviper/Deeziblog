@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import logo from '../assets/img/Deeziblog.png';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InputIcon from '@mui/icons-material/Input';
 import LoginIcon from '@mui/icons-material/Login';
@@ -8,10 +8,25 @@ import CreateIcon from '@mui/icons-material/Create';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import { AuthContext } from '../context/authContext';
+import SearchIcon from '@mui/icons-material/Search';
 
 
 const Header = () => {
     const {currentUser, logout} = useContext(AuthContext)
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
+
+    const searchPost =  async () => {
+        if(search.trim()){
+            navigate(`/Search?article=${search}`)
+        }else{
+            navigate('/')
+        }
+    }
+    const handleKeyPress = (e) => {
+        if(e.keyCode == 13)
+            searchPost()
+    }
     return (
         <>
         <div className='navbar'>
@@ -52,7 +67,9 @@ const Header = () => {
             </div>
    
         </div>
-      
+        <div className='searchbar' >
+                <input type="text" className='bar' onChange={e => setSearch(e.target.value)} placeholder='Search Articles...' onKeyDown={handleKeyPress} /> <SearchIcon onClick={searchPost} />
+                </div>
         </>
     );
 };

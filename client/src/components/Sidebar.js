@@ -9,9 +9,11 @@ const Sidebar = ({post}) => {
     const {currentUser} = useContext(AuthContext)
 
     useEffect(() => {
+
         const getCatPost = async () => {
         const res = await instance.get(`/posts/${post.cat}/${post._id}`)
         .catch(err => console.log(err.response.data))
+        console.log(res.data)
         if(res.data[0].body)
             setPosts(res.data)
         }

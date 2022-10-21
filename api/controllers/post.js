@@ -8,10 +8,19 @@ export const getPosts = async (req, res, next) => {
 
 
 export const getCatPost = async (req, res, next) => {
-    const posts = await Post.find({_id:{$ne:`${req.params.id}`}},{cat: req.params.cat })
+    const posts = await Post.find({_id:{$ne:`${req.params.id}`}},{cat:req.params.cat})
     .catch(err => next(err))
+    console.log(posts)
     res.status(200).json(posts)
 } 
+export const getSearchPost = async (req, res, next) => {
+    const {searchQ} = req.query
+    const title = new RegExp(searchQ, 'i')
+    const posts = await Post.find({$or : [{title:title}]})
+    .catch(err => next(err))
+    console.log(posts)
+    res.status(200).json(posts)
+}
 
 export const getPost = async (req, res, next) => {
     const post = await Post.find({slug:req.params.id})
