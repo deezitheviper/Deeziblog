@@ -1,9 +1,14 @@
 import Post from '../models/Post.js';
 
 export const getPosts = async (req, res, next) => {
-    const posts = await Post.find().sort({createdAt: 'desc'})
+    const {page} = req.query
+    const limit = 2;
+    const startIndex = (Number(page)-1)*limit;
+    const total = await Post.countDocuments({});
+    const posts = await Post.find().sort({createdAt: 'desc'}).limit(limit).skip(startIndex)
+
     .catch(err => next(err))
-    res.status(200).json(posts)
+    res.status(200).json({data:posts, currentPage:Number(page), totalPages: Math.ceil(total/limit)})
 } 
 
 

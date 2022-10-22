@@ -2,12 +2,18 @@ import React, { useEffect, useState } from 'react';
 import {Link} from "react-router-dom";
 import instance from '../config/axios.js';
 
-
+import Pagin from './Pagination.js';
 
 
 
 const Home = () => {
-    const [posts, setPosts] = useState();
+    const [data, setData] = useState({
+        posts:[],
+        totalPages:1,
+        page:1
+    });
+
+    const {posts, totalPages, page} = data;
 
     const getText = (html) => {
         const doc = new DOMParser().parseFromString(html, "text/html")
@@ -18,18 +24,16 @@ const Home = () => {
         const fetchPost = async () => {
             const res = await instance.get('/posts')
             .catch(err => console.log(err))
-            setPosts(res.data)
+            setData(prev => ({...prev,posts:res.data.data,totalPages:res.data.totalPages}))
         }
         fetchPost();
     },[])
 
     return (
+        <>
         <div className='home'>
             <div className='posts'>
-    
-
-                {
-                   
+                {        
                     posts?.map(post => (
                         <div className='post' key={post?._id}>
                             <div className='img'>
@@ -46,8 +50,12 @@ const Home = () => {
                     ))
                    }
             </div>
-             
         </div>
+       
+       <div className='pagn'>
+        <Pagin data={{page,totalPages}}/>
+        </div>
+        </>
     );
 };
 

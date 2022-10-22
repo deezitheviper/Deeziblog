@@ -18,7 +18,7 @@ const Header = () => {
 
     const searchPost =  async () => {
         if(search.trim()){
-            navigate(`/Search?article=${search}`)
+            navigate(`/Articles/Search?article=${search}`)
         }else{
             navigate('/')
         }
