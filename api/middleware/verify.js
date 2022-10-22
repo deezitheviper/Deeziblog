@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { createError } from './error';
+import { createError } from './error.js';
 
 export const verifyToken = () => {
 
