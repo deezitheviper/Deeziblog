@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Post from '../models/Post.js';
 
 export const getPosts = async (req, res, next) => {
@@ -48,6 +49,26 @@ export const updatePost = async (req, res, next) => {
     }).catch(err => res.status(500).json(err))
     console.log(updatePost)
     res.status(200).json(updatedPost)
+}
+
+export const likePost = async (req, res, next) => {
+    const {id} = req.params
+    if(!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).send("Post not found")
+    const post = await Post.findById(id)
+    const likedPost = await Post.findByIdAndUpdate(id, {likes: post.likes + 1  }, {new:true})
+    res.json(likedPost)
+
+}
+
+export const unlikePost = async (req, res, next) => {
+    const {id} = req.params
+    if(!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).send("Post not found")
+    const post = await Post.findById(id)
+    const unlikedPost = await Post.findByIdAndUpdate(id, {likes: post.likes - 1  }, {new:true})
+    res.json(unlikedPost)
+    
 }
 
 export const deletePost = async (req, res, next) => {
