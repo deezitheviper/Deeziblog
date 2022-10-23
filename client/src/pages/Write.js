@@ -45,6 +45,10 @@ const Create = () => {
             formIsValid = false;
             err["img"] = "Image is required"  
         }
+        if(!inputs.cat){
+            formIsValid = false;
+            err["cat"] = "Category is required"  
+        }
 
         setErr(err)
         return formIsValid
@@ -126,6 +130,9 @@ const Create = () => {
                     </div>
                 </div>
                 <div className='item'>
+                
+                    {err["cat"] &&<><p className='danger'>{err["cat"]}</p><br/></>}
+                    
                     <h1>Category</h1>
                     <div className='cat'>
                     <input type="radio" name="cat" checked={inputs.cat === "Javascript"}  value="Javascript" onChange={handleChange}/>

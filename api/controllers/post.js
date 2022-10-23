@@ -16,7 +16,6 @@ export const getPosts = async (req, res, next) => {
 export const getCatPost = async (req, res, next) => {
     const posts = await Post.find({_id:{$ne:`${req.params.id}`}},{cat:req.params.cat})
     .catch(err => next(err))
-    console.log(posts)
     res.status(200).json(posts)
 } 
 export const getSearchPost = async (req, res, next) => {
@@ -24,20 +23,22 @@ export const getSearchPost = async (req, res, next) => {
     const title = new RegExp(searchQ, 'i')
     const posts = await Post.find({$or : [{title:title}]})
     .catch(err => next(err))
-    console.log(posts)
     res.status(200).json(posts)
 }
 
 export const getPost = async (req, res, next) => {
     const post = await Post.find({slug:req.params.id})
     .catch(err => next(err))
-    res.status(200).json(post)
+    const likes = post.likes
+
+    res.status(200).json({data:post,likes:likes})
 }
 
 export const createPost = async (req, res, next) => {
     const post = new Post(req.body)
     const savedPost =  await post.save()
     .catch(err => next(err))
+    console.log(savedPost)
     res.status(200).json(savedPost)
 }
 
@@ -56,20 +57,19 @@ export const likePost = async (req, res, next) => {
     if(!mongoose.Types.ObjectId.isValid(id))
         return res.status(404).send("Post not found")
     const post = await Post.findById(id)
+    const index = post.likes.findIndex((id) => id === String(req.userId));
+
+    if(index ===  -1)
+        post.likes.push(req.userId)
+    else
+        post.likes = post.likes.filter(id => id !== String(req.userId))
+
     const likedPost = await Post.findByIdAndUpdate(id, {likes: post.likes + 1  }, {new:true})
     res.json(likedPost)
 
 }
 
-export const unlikePost = async (req, res, next) => {
-    const {id} = req.params
-    if(!mongoose.Types.ObjectId.isValid(id))
-        return res.status(404).send("Post not found")
-    const post = await Post.findById(id)
-    const unlikedPost = await Post.findByIdAndUpdate(id, {likes: post.likes - 1  }, {new:true})
-    res.json(unlikedPost)
-    
-}
+
 
 export const deletePost = async (req, res, next) => {
     const deletedPost = await Post.findOneAndDelete(req.params.id)

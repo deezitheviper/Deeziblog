@@ -29,8 +29,8 @@ const postSchema = new Schema({
         unique: true
     },
     likes:{
-        type: Number,
-        default: 0
+        type: [String],
+        default: []
     },
     comments: [
         { body: String,

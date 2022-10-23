@@ -4,24 +4,21 @@ import mongoose from "mongoose";
 import postRouter from './routes/Post.js';
 import userRouter from './routes/User.js';
 import authRouter from './routes/Auth.js';
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import multer from 'multer';
 
 
-
-
-const app = express();
-
 dotenv.config()
 
-app.use(express.json())
-app.use(cookieParser())
+const app = express();
 if(process.env.NODE_ENV === 'dev'){
     app.use(cors({
         origin:process.env.CLIENT_URL
     }))
 }
+
+app.use(express.json())
+
 
 //Database
 const connect = async  () => {
@@ -51,6 +48,16 @@ app.get('/', (req, res)=>{
 app.use('/api/users', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
+app.use((err,req,res,next) => {
+  const errStatus = err.status || 500
+  const errMessage = err.message || "Unable to complete request"
+  return res.status(errStatus).json({
+      success:false,
+      status:errStatus,
+      message:errMessage,
+      stack:err.stack
+  })
+})
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -68,16 +75,7 @@ app.post('/api/upload', upload.single('img'), function (req, res) {
   })
   
 
-app.use((err,req,res,next) => {
-    const errStatus = err.status || 500
-    const errMessage = err.message || "Unable to complete request"
-    return res.status(errStatus).json({
-        success:false,
-        status:errStatus,
-        message:errMessage,
-        stack:err.stack
-    })
-})
+
 
 
 app.listen(5000,() => {

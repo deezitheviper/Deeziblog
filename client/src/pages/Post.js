@@ -8,7 +8,8 @@ import moment from 'moment';
 import { AuthContext } from '../context/authContext.js';
 import avatar from '../assets/img/avatar.png';
 import DOMPurify from "dompurify";
-
+import Stack from '@mui/material/Stack';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 const Post = () => {
@@ -42,7 +43,7 @@ useEffect(() => {
 const getPost = async () => {
     const res = await instance.get(`/posts/${params.slug}`)
     .catch(err => console.log(err))
-    setPost(res.data[0])
+    setPost(res.data)
 }
 
 getPost()
@@ -79,6 +80,20 @@ getPost()
             __html: DOMPurify.sanitize(post.body)
           }} />   
                 </div>
+                <hr/>
+                <span >
+                <Stack direction="row" alignItems="center" spacing={2}>
+                <FavoriteBorderIcon className="i-like" fontSize='large'/>
+                 <p>30</p>
+                </Stack>
+                </span>
+              <span>
+      
+             </span>
+             </div>
+            
+             <div>
+                
              </div>
            <div>
             <Sidebar post={post}/>

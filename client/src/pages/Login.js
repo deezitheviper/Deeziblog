@@ -10,7 +10,7 @@ const Login = () => {
         'password': ""
     });
     const [err, setErr] = useState("");
-    const {login, currentUser} = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -20,9 +20,13 @@ const Login = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         const res = await login(inputs)
-        .catch(err => setErr(err.response.data.message));
-        navigate('/')
-        console.log(currentUser)
+        .catch(err =>{
+         setErr(err.response.data.message)
+        })
+        if(res === 200)
+            navigate('/')
+    
+       
     }
     return (
         <div className='auth'>

@@ -628,7 +628,10 @@ form{
                 flex-direction: column;
                 gap: 30px;
             
-             
+                .i-like{
+                    color: #F9D1E1;
+                }
+                
                 img{
                     object-fit: contain;
                     width: 640px;
