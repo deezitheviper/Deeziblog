@@ -38,6 +38,15 @@ const handleDelete = async () => {
    console.log(res)
 }
 
+const likePost = async () => {
+    if(currentUser){
+        console.log(post._id)
+        const res = await instance.patch(`posts/like/${post._id}`)
+        .catch(err => console.log(err))
+        setData(e => ({...data, likes:res.data.likes}))
+    }
+}
+
 useEffect(() => {
     {/* const fetchApi = () => {
     instance.request(options).then(res => {
@@ -50,7 +59,6 @@ const getPost = async () => {
     const res = await instance.get(`/posts/${params.slug}`)
     .catch(err => console.log(err))
     setData(e => ({...data, post:res.data.data, likes:res.data.likes }) )
-    console.log(res.data)
 }
 
 getPost()
@@ -90,7 +98,7 @@ getPost()
                 <hr/>
                 <span >
                 <Stack direction="row" alignItems="center" spacing={2}>
-                <FavoriteBorderIcon className="i-like" fontSize='large'/>
+                <FavoriteBorderIcon onClick={likePost} className="i-like" fontSize='large'/>
                  <p>{likes.length}</p>
                 </Stack>
                 </span>

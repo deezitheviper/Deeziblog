@@ -53,18 +53,18 @@ export const updatePost = async (req, res, next) => {
 
 export const likePost = async (req, res, next) => {
     const {id} = req.params
+   const userId = req.user.id
     if(!mongoose.Types.ObjectId.isValid(id))
         return res.status(404).send("Post not found")
     const post = await Post.findById(id)
-    const index = post.likes.findIndex((id) => id === String(req.userId));
-
+    const index = post.likes.findIndex((id) => id === String(userId));
     if(index ===  -1)
-        post.likes.push(req.userId)
+        post.likes.push(userId)
     else
-        post.likes = post.likes.filter(id => id !== String(req.userId))
+        post.likes = post.likes.filter(id => id !== String(userId))
 
-    const likedPost = await Post.findByIdAndUpdate(id, {likes: post.likes + 1  }, {new:true})
-    res.json(likedPost)
+    const likedPost = await Post.findByIdAndUpdate(id, post, {new:true})
+    res.json({likes:likedPost.likes})
 
 }
 
