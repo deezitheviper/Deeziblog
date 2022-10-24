@@ -19,14 +19,13 @@ const Login = () => {
     }
     const handleSubmit = async e => {
         e.preventDefault()
-        const res = await login(inputs)
-        .catch(err =>{
+        try {
+            await login(inputs)
+            navigate("/")
+        }catch(err){
          setErr(err.response.data.message)
-        })
-        if(res === 200)
-            navigate('/')
-    
-       
+        }
+        
     }
     return (
         <div className='auth'>

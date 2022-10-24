@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import postRouter from './routes/Post.js';
 import userRouter from './routes/User.js';
 import authRouter from './routes/Auth.js';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import multer from 'multer';
 
@@ -11,13 +12,16 @@ import multer from 'multer';
 dotenv.config()
 
 const app = express();
+app.use(express.json());
 if(process.env.NODE_ENV === 'dev'){
     app.use(cors({
+        credentials: true,
         origin:process.env.CLIENT_URL
     }))
 }
 
-app.use(express.json())
+app.use(cookieParser())
+
 
 
 //Database

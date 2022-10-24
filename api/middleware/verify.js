@@ -3,7 +3,6 @@ import { createError } from './error.js';
 
 export const verifyToken = (req,res, next) => {
     const token = req.cookies.accesstoken;
-
     if(!token || token === undefined) return  next(createError(401, "You're not authenticated"))
 
     jwt.verify(token, process.env.SECRET_KEY, (err, user)=> {

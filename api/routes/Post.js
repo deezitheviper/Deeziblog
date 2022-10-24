@@ -9,7 +9,7 @@ const router = express.Router()
 //
 router.get('/', getPosts)
 router.get('/search', getSearchPost)
-router.get('/:id',verifyUser, getPost)
+router.get('/:id',verifyToken,getPost)
 router.get('/:cat/:id', getCatPost)
 router.post('/createPost', verifyUser, createPost) 
 router.patch('/:slug',verifyUser,updatePost)

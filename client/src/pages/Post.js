@@ -14,13 +14,23 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const Post = () => {
    
-const [post, setPost] = useState({})
+const [data, setData] = useState({
+    post:{},
+    likes: [],
+    comments: []
+})
 const {currentUser} = useContext(AuthContext)
-const params = useParams()
+const params = useParams();
+
+const {post, likes, comments} = data;
+
+
+{/*
 const options = {
   method: 'GET',
   url: 'https://baconipsum.com/api/?type=meat-and-filler&paras=5&format=text',
 };
+*/}
 
 const handleDelete = async () => {
    const res =  await instance.delete(`/posts/${params.slug}`)
@@ -28,22 +38,19 @@ const handleDelete = async () => {
    console.log(res)
 }
 
-const getText = (html) => {
-    const doc = new DOMParser().parseFromString(html, "text/html")
-    return doc.body.textContent
-}
 useEffect(() => {
-    const fetchApi = () => {
+    {/* const fetchApi = () => {
     instance.request(options).then(res => {
         setPost(res.data)
     }).catch(err  => {
         console(err);
     });
-}
+} */}
 const getPost = async () => {
     const res = await instance.get(`/posts/${params.slug}`)
     .catch(err => console.log(err))
-    setPost(res.data)
+    setData(e => ({...data, post:res.data.data, likes:res.data.likes }) )
+    console.log(res.data)
 }
 
 getPost()
@@ -84,7 +91,7 @@ getPost()
                 <span >
                 <Stack direction="row" alignItems="center" spacing={2}>
                 <FavoriteBorderIcon className="i-like" fontSize='large'/>
-                 <p>30</p>
+                 <p>{likes.length}</p>
                 </Stack>
                 </span>
               <span>

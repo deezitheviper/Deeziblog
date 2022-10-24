@@ -27,10 +27,9 @@ export const getSearchPost = async (req, res, next) => {
 }
 
 export const getPost = async (req, res, next) => {
-    const post = await Post.find({slug:req.params.id})
+    const post = await Post.findOne({slug:req.params.id})
     .catch(err => next(err))
     const likes = post.likes
-
     res.status(200).json({data:post,likes:likes})
 }
 
