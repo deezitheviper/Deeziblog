@@ -40,10 +40,9 @@ const handleDelete = async () => {
 
 const likePost = async () => {
     if(currentUser){
-        console.log(post._id)
         const res = await instance.patch(`posts/like/${post._id}`)
         .catch(err => console.log(err))
-        setData(e => ({...data, likes:res.data.likes}))
+        setData(e => ({...data, likes:res.data.data.likes}))
     }
 }
 
@@ -58,7 +57,7 @@ useEffect(() => {
 const getPost = async () => {
     const res = await instance.get(`/posts/${params.slug}`)
     .catch(err => console.log(err))
-    setData(e => ({...data, post:res.data.data, likes:res.data.likes }) )
+    setData(e => ({...data, post:res.data.data, likes:res.data.data.likes }) )
 }
 
 getPost()
@@ -69,7 +68,7 @@ getPost()
              <div className='post-body'>
             
              <h1>{post?.title}</h1>
-                <img src={`../upload/${post?.img}`} alt=""/>
+                <img src={post?.img} alt=""/>
              
                 <div className='profile'>
                {currentUser?.profilepic?
@@ -102,9 +101,10 @@ getPost()
                  <p>{likes.length}</p>
                 </Stack>
                 </span>
-              <span>
+            
+           Comments
+
       
-             </span>
              </div>
             
              <div>

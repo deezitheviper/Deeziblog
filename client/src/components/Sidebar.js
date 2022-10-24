@@ -11,23 +11,22 @@ const Sidebar = ({post}) => {
     useEffect(() => {
 
         const getCatPost = async () => {
-        const res = await instance.get(`/posts/${post.cat}/${post._id}`)
+        const res = await instance.get(`/posts/cat/${post.cat}`)
         .catch(err => console.log(err.response.data))
-        console.log(res.data)
-        if(res.data[0].body)
-            setPosts(res.data)
+        setPosts(res.data)
         }
         getCatPost();
     },[post.cat])
+
+    const similarPosts = posts?.filter(({_id}) => _id !== post._id);
 
     return (
         <div >
             
             <div className='sidebar'>
             <h3>Similar Articles</h3>
-            {console.log(posts)}
-            {posts?.map(post => (
- <div className='content' key={post.id}>
+            {similarPosts?.map(post => (
+ <div className='content' key={post._id}>
  <div className='l-content'>
   <div className='profile'> 
   {currentUser?.profilepic?
@@ -46,7 +45,7 @@ const Sidebar = ({post}) => {
 
   </div>
   <div className='r-content'>
-  <img src={`../upload/${post?.img}`} alt=""/>
+  <img src={post?.img} alt=""/>
   </div>
   </div>
             ))}

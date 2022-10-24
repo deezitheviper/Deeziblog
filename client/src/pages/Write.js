@@ -1,9 +1,9 @@
-import { TableBody } from '@mui/material';
+
 import React, { useContext, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useLocation, useNavigate } from 'react-router-dom';
 import instance from '../config/axios.js';
-import {toast } from 'react-toastify';
+import FileBase from 'react-file-base64';
 import { AuthContext } from '../context/authContext.js';
 
 const Create = () => {
@@ -71,20 +71,17 @@ const Create = () => {
         if(checkForm()){
       
         if (state){
-            const res = await instance.put(`/posts/${state.slug}`,{...inputs,
+            await instance.put(`/posts/${state.slug}`,{...inputs,
                 body:content,
-                img: inputs.img,
                 slug:slugify(inputs.title)})
-            .catch(err => console.log(err.response.data)) 
+            .catch(err => console.log(err)) 
            
         }
         else{
-           const imgurl = await upload()
-           .catch(err => console.log(err))
+            
            const res = await instance.post('/posts/createPost',{...inputs,
             body:content,
             authur: currentUser.username,
-            img:imgurl,
             slug:slugify(inputs.title)
         })
             .catch(err => console.log(err.response.data)) 
@@ -119,7 +116,12 @@ const Create = () => {
                    <br/>
                     <label>Upload Image</label>
                  <br/>
-                    <input  onChange={e => setInput(prev => ({...prev, img:e.target.files[0]}))} type="file"/>
+                 <FileBase
+        type="file"
+        multiple={false}
+        onDone={({ base64 }) => setInput({ ...inputs, img: base64 })
+        }
+      />
                     <br/>
                     {err["img"] && <p className='danger'>{err["img"]}</p>}
                     <br/>

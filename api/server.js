@@ -12,7 +12,7 @@ import multer from 'multer';
 dotenv.config()
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 if(process.env.NODE_ENV === 'dev'){
     app.use(cors({
         credentials: true,

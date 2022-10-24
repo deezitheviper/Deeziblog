@@ -14,7 +14,7 @@ export const getPosts = async (req, res, next) => {
 
 
 export const getCatPost = async (req, res, next) => {
-    const posts = await Post.find({_id:{$ne:`${req.params.id}`}},{cat:req.params.cat})
+    const posts = await Post.find({cat:req.params.cat}).sort({_id:-1})
     .catch(err => next(err))
     res.status(200).json(posts)
 } 
@@ -29,8 +29,8 @@ export const getSearchPost = async (req, res, next) => {
 export const getPost = async (req, res, next) => {
     const post = await Post.findOne({slug:req.params.id})
     .catch(err => next(err))
-    const likes = post.likes
-    res.status(200).json({data:post,likes:likes})
+
+    res.status(200).json({data:post})
 }
 
 export const createPost = async (req, res, next) => {
@@ -47,7 +47,6 @@ export const updatePost = async (req, res, next) => {
     },{
         new:true
     }).catch(err => res.status(500).json(err))
-    console.log(updatePost)
     res.status(200).json(updatedPost)
 }
 
