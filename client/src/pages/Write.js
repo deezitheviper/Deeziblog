@@ -5,11 +5,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import instance from '../config/axios.js';
 import FileBase from 'react-file-base64';
 import { AuthContext } from '../context/authContext.js';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Create = () => {
     const state = useLocation().state
     const [err, setErr] = useState({})
     const {currentUser} = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
     const [content, setContent] = useState( state?.body || "")
 
     const navigate = useNavigate();
@@ -71,6 +74,7 @@ const Create = () => {
         if(checkForm()){
       
         if (state){
+            setLoading(true)
             await instance.put(`/posts/${state.slug}`,{...inputs,
                 body:content,
                 slug:slugify(inputs.title)})
@@ -78,7 +82,7 @@ const Create = () => {
            
         }
         else{
-            
+            setLoading(true)
            const res = await instance.post('/posts/createPost',{...inputs,
             body:content,
             authur: currentUser.username,
@@ -86,6 +90,7 @@ const Create = () => {
         })
             .catch(err => console.log(err.response.data)) 
     }
+    setLoading(false)
     navigate('/')
 }else{
     checkForm()
@@ -128,7 +133,13 @@ const Create = () => {
 
                     <div className='buttons'>
                         <button >Save as Draft</button>
+                        {loading?
+                         <Box sx={{ display: 'flex' }}>
+                         <CircularProgress />
+                       </Box>
+                        :
                         <button onClick={handlePublish}>Publish</button>
+}
                     </div>
                 </div>
                 <div className='item'>

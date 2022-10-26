@@ -10,6 +10,8 @@ import avatar from '../assets/img/avatar.png';
 import DOMPurify from "dompurify";
 import Stack from '@mui/material/Stack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 const Post = () => {
@@ -21,7 +23,8 @@ const [data, setData] = useState({
 })
 const {currentUser} = useContext(AuthContext)
 const params = useParams();
-
+const {slug} = params;
+const [loading, setLoading] = useState(false)
 const {post, likes, comments} = data;
 
 
@@ -33,9 +36,8 @@ const options = {
 */}
 
 const handleDelete = async () => {
-   const res =  await instance.delete(`/posts/${params.slug}`)
+   const res =  await instance.delete(`/posts/${slug}`)
    .catch(err => console.log(err))
-   console.log(res)
 }
 
 const likePost = async () => {
@@ -55,16 +57,23 @@ useEffect(() => {
     });
 } */}
 const getPost = async () => {
-    const res = await instance.get(`/posts/${params.slug}`)
+    setLoading(true)
+    const res = await instance.get(`/posts/${slug}`)
     .catch(err => console.log(err))
     setData(e => ({...data, post:res.data.data, likes:res.data.data.likes }) )
+    setLoading(false)
 }
 
 getPost()
-}, []);
+}, [slug]);
     return (
         <div className='article'>
-            
+            {loading?
+   <Box sx={{ display: 'flex' }}>
+   <CircularProgress />
+ </Box>
+ :
+            <>
              <div className='post-body'>
             
              <h1>{post?.title}</h1>
@@ -113,6 +122,8 @@ getPost()
            <div>
             <Sidebar post={post}/>
            </div>
+           </>
+}
         </div>
     );
 };

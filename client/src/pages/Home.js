@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {Link} from "react-router-dom";
 import instance from '../config/axios.js';
-
 import Pagin from './Pagination.js';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 
 
@@ -20,6 +21,9 @@ const Home = () => {
         return doc.body.textContent
     }
 
+    const [loading, setLoading] = useState(false)
+
+
     useEffect(()=> {
         const fetchPost = async () => {
             const res = await instance.get('/posts')
@@ -32,6 +36,11 @@ const Home = () => {
     return (
         <>
         <div className='home'>
+        {loading? 
+            <Box sx={{ display: 'flex' }}>
+                <CircularProgress />
+            </Box>
+                :
             <div className='posts'>
                 {        
                     posts?.map(post => (
@@ -50,8 +59,9 @@ const Home = () => {
                     ))
                    }
             </div>
+}
         </div>
-       
+                
        <div className='pagn'>
         <Pagin data={{page,totalPages}}/>
         </div>
