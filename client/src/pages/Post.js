@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLocation, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,7 +12,8 @@ import Stack from '@mui/material/Stack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-
+import Divider from '@mui/material/Divider';
+import Comment from './Comment';
 
 const Post = () => {
    
@@ -25,7 +26,9 @@ const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post, likes, comments} = data;
+const {post, likes} = data;
+
+
 
 
 {/*
@@ -47,6 +50,8 @@ const likePost = async () => {
         setData(e => ({...data, likes:res.data.data.likes}))
     }
 }
+
+
 
 useEffect(() => {
     {/* const fetchApi = () => {
@@ -103,7 +108,7 @@ getPost()
             __html: DOMPurify.sanitize(post.body)
           }} />   
                 </div>
-                <hr/>
+                <Divider  />
                 <span >
                 <Stack direction="row" alignItems="center" spacing={2}>
                 <FavoriteBorderIcon onClick={likePost} className="i-like" fontSize='large'/>
@@ -112,12 +117,7 @@ getPost()
                 </span>
             
            Comments
-
-      
-             </div>
-            
-             <div>
-                
+   <Comment data={post}/>
              </div>
            <div>
             <Sidebar post={post}/>

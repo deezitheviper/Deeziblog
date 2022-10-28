@@ -33,9 +33,19 @@ const postSchema = new Schema({
         default: []
     },
     comments: [
-        { body: String,
-         date: Date ,
-        likes: Number
+        { authur: {
+            type:String,
+            required: true,
+        },
+        body: {
+            type:String,
+            required: true,
+        },
+            date: { type: Date, default: Date.now},
+         likes:{
+            type: [String],
+            default: []
+        }
         }],
     date: { type: Date, default: Date.now, required:true },
     hidden: Boolean,

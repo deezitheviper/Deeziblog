@@ -277,6 +277,53 @@ form{
                     
                 }
             }
+          .c-section{
+            margin-top: 20px;
+            .comment{
+                .profile{
+                
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    font-size: 14px;
+                    img{
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 60%;
+                        object-fit: contain;
+                    }
+                    .info{
+                        span{
+                            
+                            font-weight: 400;
+                            font-size: 16px;
+                            text-transform: capitalize;
+                    
+                        }
+                        p{
+                            color:rgb(125, 125, 125);
+                           }
+                        
+                    }
+                }
+                .c-content{
+                    margin-top: 10px;
+                    color:rgb(78, 77, 77);
+                   }
+            }
+            .publish-c{
+                margin-top: 50px;
+
+                button{
+                    margin-left: 10px;
+                    padding: 10px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #128be2;
+                    color: #ffffff;
+                }
+            }
+        }
         }
         .sidebar{
            
@@ -678,6 +725,53 @@ form{
                             color:rgb(117 117 117);
                            }
                         
+                    }
+                }
+                .c-section{
+                    margin-top: 20px;
+                    .comment{
+                        .profile{
+                        
+                            display: flex;
+                            align-items: center;
+                            gap: 15px;
+                            font-size: 14px;
+                            img{
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 60%;
+                                object-fit: contain;
+                            }
+                            .info{
+                                span{
+                                    
+                                    font-weight: 400;
+                                    font-size: 16px;
+                                    text-transform: capitalize;
+                            
+                                }
+                                p{
+                                    color:rgb(125, 125, 125);
+                                   }
+                                
+                            }
+                        }
+                        .c-content{
+                            margin-top: 10px;
+                            color:rgb(78, 77, 77);
+                           }
+                    }
+                    .publish-c{
+                        margin-top: 50px;
+        
+                        button{
+                            margin-top: 15px;
+                            padding: 10px;
+                            border: none;
+                            border-radius: 5px;
+                            background-color: #128be2;
+                            color: #ffffff;
+                        }
                     }
                 }
             }

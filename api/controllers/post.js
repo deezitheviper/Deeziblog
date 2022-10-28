@@ -68,9 +68,47 @@ export const likePost = async (req, res, next) => {
 }
 
 
-
 export const deletePost = async (req, res, next) => {
-    const deletedPost = await Post.findOneAndDelete(req.params.id)
+    await Post.findOneAndDelete(req.params.id)
     .catch(err => next(err))
-    res.status(200).json(deletedPost)
+    res.status(200).json("Post deleted")
+}
+
+
+export const commentPost = async (req, res, next) => {
+    const {id} = req.params
+
+    const post = await Post.findById(id)
+
+    post.comments.push({...req.body})
+    const updatedPost = await Post.findByIdAndUpdate(id, post, {new:true})
+    .catch(err => next(err))
+    res.status(200).json(updatedPost.comments)
+}
+
+export const likeComment = async (req, res, next) => {
+    const {postId, cId} = req.params
+    const userId = req.user.id
+
+    const post = await Post.findById(postId)
+    const comment = post.comments.findById(cId)
+    const index = await comment.likes.filter(id => id !== String(userId))
+
+    if(index === -1){
+        comment.likes.push(userId)
+    }
+    else 
+        comment.likes = await comment.likes.filter(id => id !== String(userId))
+
+    const likedComment = await Post.findByIdAndUpdate(id, comment, {new: true})
+
+}
+
+export const deleteComment = async (req, res, next) => {
+    const {postId,cId} = req.body
+    const post = await Post.findById(postId)
+    post.comments.filter(id => id !== cId)
+    await post.findByIdAndUpdate(postId,post, {new:true})
+    .catch(err => next(err))
+    res.status(200).json("Comment Deleted")
 }
