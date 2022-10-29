@@ -23,10 +23,11 @@ const useQuery = () => {
 const Post = () => {
 
 const query = useQuery()
-const page = Number(query.get('page'))
+const pageq = Number(query.get('page'))
 const [data, setData] = useState({
     post:{},
     likes: [],
+    page: pageq?pageq:1,
     totalP: 1,
     comments:[]
 })
@@ -34,7 +35,7 @@ const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post,totalP,comments,likes} = data;
+const {post,totalP,page,comments,likes} = data;
 
 
 
