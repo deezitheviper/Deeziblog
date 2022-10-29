@@ -89,7 +89,9 @@ export const commentPost = async (req, res, next) => {
     post.comments.push({...req.body})
     const updatedPost = await Post.findByIdAndUpdate(id, post, {new:true})
     .catch(err => next(err))
-    res.status(200).json(updatedPost.comments)
+    const limit = 2
+    const totalC = updatedPost.comments.length
+    res.status(200).json({lastPage : Math.ceil(totalC/limit)})
 }
 
 export const likeComment = async (req, res, next) => {

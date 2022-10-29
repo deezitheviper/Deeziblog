@@ -23,11 +23,11 @@ const useQuery = () => {
 const Post = () => {
 
 const query = useQuery()
-const pageq = Number(query.get('page'))
+const page = Number(query.get('page'))
 const [data, setData] = useState({
     post:{},
     likes: [],
-    page: pageq?pageq:1,
+    page: page?page:1,
     totalP: 1,
     comments:[]
 })
@@ -35,7 +35,7 @@ const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post,totalP,page,comments,likes} = data;
+const {post,totalP,comments,likes} = data;
 
 
 
@@ -63,13 +63,7 @@ const likePost = async () => {
 
 
 useEffect(() => {
-    {/* const fetchApi = () => {
-    instance.request(options).then(res => {
-        setPost(res.data)
-    }).catch(err  => {
-        console(err);
-    });
-} */}
+
 const getPost = async () => {
     setLoading(true)
     const res = await instance.get(`/posts/${slug}/?page=${page}`)
