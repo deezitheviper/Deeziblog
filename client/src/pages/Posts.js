@@ -14,7 +14,7 @@ const useQuery = () => {
 const Posts = () => {
     const query = useQuery()
     const searchQ = query.get('article')
-    const page = Number(query.get('page'))
+    const page = Number(query.get('page')) || 1
       const [data, setData] = useState({
         posts:[],
         totalPages:1,
@@ -49,6 +49,7 @@ const Posts = () => {
 
     return (
         <>
+       
         <div className='home'>
             <div className='posts'>
                 {loading? 

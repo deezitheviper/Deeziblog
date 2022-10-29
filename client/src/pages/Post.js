@@ -23,11 +23,10 @@ const useQuery = () => {
 const Post = () => {
 
 const query = useQuery()
-const page = Number(query.get('page'))
+const page = Number(query.get('page')) || 1
 const [data, setData] = useState({
     post:{},
     likes: [],
-    page: page?page:1,
     totalP: 1,
     comments:[]
 })
@@ -76,6 +75,7 @@ getPost()
 }, [slug,page]);
     return (
         <div className='article'>
+            
             {loading?
    <Box sx={{ display: 'flex' }}>
    <CircularProgress />

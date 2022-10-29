@@ -251,6 +251,7 @@ form{
                 }
                 
             }
+            
             .profile{
                 
                 display: flex;
@@ -277,9 +278,13 @@ form{
                     
                 }
             }
+        
           .c-section{
             margin-top: 20px;
             .comment{
+                .c-header{
+                    display: flex;
+                    gap: 50px;
                 .profile{
                 
                     display: flex;
@@ -306,6 +311,22 @@ form{
                         
                     }
                 }
+                .edit{
+                    display: flex;
+                    text-align: end;
+                    gap: 10px;
+    
+                    .editIcon{
+                        color: $light-coral;
+                        cursor: pointer;
+                     
+                    }
+                    .deleteIcon{
+                        color: $offensive;
+                        cursor: pointer;
+                    }
+                }
+            }
                 .c-content{
                     margin-top: 10px;
                     color:rgb(78, 77, 77);

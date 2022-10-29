@@ -1,5 +1,5 @@
 import express  from "express";
-import { getPost,getPosts,updatePost, deletePost, createPost,getCatPost, getSearchPost, likePost, commentPost} from "../controllers/post.js";
+import { getPost,getPosts,updatePost, deletePost, createPost,getCatPost, getSearchPost, likePost, commentPost, deleteComment} from "../controllers/post.js";
 import { verifyToken, verifyUser } from "../middleware/verify.js";
 
 
@@ -16,6 +16,7 @@ router.post('/comment/:id', verifyUser, commentPost)
 router.put('/:slug',verifyUser,updatePost)
 router.patch('/like/:id',verifyToken,likePost)
 router.delete('/:id',verifyUser, deletePost)
+router.delete('/deleteC/:postId/:cId',verifyUser, deleteComment)
 
 
 export default router
