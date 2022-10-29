@@ -6,11 +6,13 @@ import avatar from '../assets/img/avatar.png';
 import instance from '../config/axios';
 import { AuthContext } from '../context/authContext.js';
 import moment from 'moment';
+import CommentP from './CommentP.js';
+
 
 const Comment = ({data}) => {
+    const {comments,post, totalP, page} = data;
 
     const [value, setValue] = useState('');
-    const [comments, setComments] = useState(data?.comments)
     const {currentUser} = useContext(AuthContext)
     const handleChange = e => {
     setValue(e.target.value)
@@ -19,7 +21,7 @@ const Comment = ({data}) => {
 
     const postComment = async () => {
         if(currentUser){
-            const res = await instance.post(`posts/comment/${data._id}`,{
+            const res = await instance.post(`posts/comment/${post._id}`,{
                 authur:currentUser.username,
                 body:value
             })
@@ -51,6 +53,10 @@ const Comment = ({data}) => {
   </Divider>
   </div>
     ))}        
+<br/>
+<br/>
+<CommentP data={{totalP,page,post}}/>
+<br/>
 
            <div className='publish-c'>
              <TextField
@@ -63,6 +69,7 @@ const Comment = ({data}) => {
         />
         <button onClick={postComment}> Comment </button>
              </div>
+            
             
              </div> 
         </div>

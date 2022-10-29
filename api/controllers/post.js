@@ -27,10 +27,16 @@ export const getSearchPost = async (req, res, next) => {
 }
 
 export const getPost = async (req, res, next) => {
+    const {page} = req.query
     const post = await Post.findOne({slug:req.params.id})
     .catch(err => next(err))
+    const limit = 2;
+    const startIndex = (Number(page)-1) * limit;
+    const total = await post.comments.length
+    const postC = await Post.findOne({slug:req.params.id}, {comments:{$slice:[startIndex,limit]}})
+    const comments = postC.comments
+    res.status(200).json({data:post,comments:comments,totalPages:Math.ceil(total/limit)})
 
-    res.status(200).json({data:post})
 }
 
 export const createPost = async (req, res, next) => {

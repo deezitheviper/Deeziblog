@@ -35,8 +35,7 @@ const Posts = () => {
                 const res = await instance.get(`posts/search?searchQ=${searchQ}`)
                 .catch(err => console.log(err))
                 setData({posts:res.data.data})
-            }else{
-                
+            }else{   
                 const res = await instance.get(`/posts/?page=${page}`)
                 .catch(err => console.log(err))
                 setData(prev => ({...prev,posts:res.data.data,totalPages:res.data.totalPages}))

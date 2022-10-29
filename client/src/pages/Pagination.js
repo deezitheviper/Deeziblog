@@ -3,7 +3,7 @@ import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 
 import { Link } from 'react-router-dom';
-import instance from '../config/axios';
+
 
 
 const Pagin = ({data}) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Sidebar from '../components/Sidebar';
@@ -15,18 +15,26 @@ import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Comment from './Comment';
 
+
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search)
+}
+
 const Post = () => {
-   
+
+const query = useQuery()
+const page = Number(query.get('page'))
 const [data, setData] = useState({
     post:{},
     likes: [],
-    comments: []
+    totalP: 1,
+    comments:[]
 })
 const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post, likes} = data;
+const {post,totalP,comments,likes} = data;
 
 
 
@@ -63,14 +71,14 @@ useEffect(() => {
 } */}
 const getPost = async () => {
     setLoading(true)
-    const res = await instance.get(`/posts/${slug}`)
+    const res = await instance.get(`/posts/${slug}/?page=${page}`)
     .catch(err => console.log(err))
-    setData(e => ({...data, post:res.data.data, likes:res.data.data.likes }) )
+    setData(e => ({...data, post:res.data.data,comments:res.data.comments,likes:res.data.data.likes,totalP:res.data.totalPages }) )
     setLoading(false)
 }
 
 getPost()
-}, [slug]);
+}, [slug,page]);
     return (
         <div className='article'>
             {loading?
@@ -117,7 +125,7 @@ getPost()
                 </span>
             
            Comments
-   <Comment data={post}/>
+   <Comment data={{post,comments,totalP,page}}/>
              </div>
            <div>
             <Sidebar post={post}/>
