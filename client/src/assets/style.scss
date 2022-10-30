@@ -484,11 +484,10 @@ form{
 
 //create
 .create{
-
+    margin-top: 50px;
     display: flex;
     gap: 20px;
     
-
     .content{
         display: flex;
         flex-direction: column;
@@ -569,7 +568,11 @@ form{
         }
     }
 }
-
+@media screen and (max-width: 768px) {
+    .create{
+        flex-direction: column;
+    }
+  }
 //Pagination
 .pagn{
     margin-top: 100px;
