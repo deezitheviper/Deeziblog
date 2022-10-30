@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -24,6 +24,7 @@ const Post = () => {
 
 const query = useQuery()
 const page = Number(query.get('page')) || 1
+const update = query.get('update')
 const [data, setData] = useState({
     post:{},
     likes: [],
@@ -35,7 +36,7 @@ const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
 const {post,totalP,comments,likes} = data;
-
+const csection = useRef(null);
 
 
 
@@ -60,19 +61,24 @@ const likePost = async () => {
 }
 
 
-
+const executeScroll = () => csection.current.scrollIntoView()
 useEffect(() => {
 
 const getPost = async () => {
     setLoading(true)
     const res = await instance.get(`/posts/${slug}/?page=${page}`)
     .catch(err => console.log(err))
-    setData(e => ({...data, post:res.data.data,comments:res.data.comments,likes:res.data.data.likes,totalP:res.data.totalPages }) )
+    const {post,likes,comments,totalPages} = res.data
+    setData(e => ({...data, post:post,comments:comments,likes:likes,totalP:totalPages }) )
     setLoading(false)
+
+}
+getPost()
+if(update) {
+    return executeScroll()
 }
 
-getPost()
-}, [slug,page]);
+}, [slug,page,update]);
     return (
         <div className='article'>
             
@@ -102,7 +108,7 @@ getPost()
              {currentUser?.username === post?.authur && (
                <div className='edit'>
                <span className='editIcon'><Link to={'/create'} state={post}><CreateIcon/></Link></span>
-               <span className='deleteIcon'><Link onClick={handleDelete}><DeleteIcon/></Link></span>
+               <span className='deleteIcon'><DeleteIcon onClick={handleDelete}/></span>
                </div>)}
            </div>
                 <div className='post'>
@@ -120,7 +126,9 @@ getPost()
                 </span>
             
            Comments
+           <div ref={csection}>
    <Comment data={{post,comments,totalP,page}}/>
+   </div>
              </div>
            <div>
             <Sidebar post={post}/>

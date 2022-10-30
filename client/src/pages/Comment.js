@@ -21,8 +21,15 @@ const Comment = ({data}) => {
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState('');
     const {currentUser} = useContext(AuthContext)
-    const myref = useRef(null)
+    const [edata, setEdata] = useState({
+        edit:false,
+        cId:""
+    })
 
+    const {edit, cId} = edata;
+
+   
+    const cEdit = useRef(null)
 
 
     const handleChange = e => {
@@ -39,7 +46,8 @@ const Comment = ({data}) => {
                 body:value
             })
             setValue("")
-            navigate(`/${post.cat}/${post.slug}/?page=${Number(res.data.lastPage)}`)
+            toast.success("Comment has been posted")
+            navigate(`/${post.cat}/${post.slug}/?page=${Number(res.data.lastPage)}&update=${true}`)
             
         }catch(err) {
              console.log(err)
@@ -49,7 +57,33 @@ const Comment = ({data}) => {
 
         }
     }
-    const executeScroll = () => myref.current.scrollIntoView()
+    const executeScroll = () => cEdit.current.scrollIntoView()
+
+    const handleEdit = (body, id) => {
+        if(currentUser){
+            setValue(body)
+            executeScroll()
+            setEdata(() => ({...edata,edit:true,cId:id }))
+    }
+}
+    const editComment = async e => {
+        e.preventDefault()
+        if(currentUser && edit == true){
+            setLoading(true)
+            try {
+            const res = await instance.patch(`posts/updateC/${post._id}/${cId}`,{
+                body:value
+            })
+            const {msg, page} = res.data
+            toast.success(msg)
+            navigate(`/${post.cat}/${post.slug}/?page=${page}&update=${true}`)
+        }catch(err) {
+            console.log(err)
+        }
+        }
+        setLoading(false)
+    }
+   
     const deleteComment = async (id) => {
         
         if(currentUser){
@@ -60,7 +94,7 @@ const Comment = ({data}) => {
     }
     return (
         <div>
-               <div ref={myref} className='c-section'>
+               <div  className='c-section'>
         {comments?.map(comment => (
   <div className='comment' key={comment._id}>
 <div className='c-header'>
@@ -79,8 +113,8 @@ const Comment = ({data}) => {
 
   {currentUser?.username === post?.authur && (
                <div className='edit'>
-               <span className='editIcon'><Link to={'/create'} state={post}><CreateIcon/></Link></span>
-               <span className='deleteIcon'><Link onClick={() => deleteComment(comment._id)}><DeleteIcon/></Link></span>
+               <span className='editIcon' ><CreateIcon onClick={() => handleEdit(comment.body,comment._id)}/></span>
+               <span className='deleteIcon'><DeleteIcon onClick={() => deleteComment(comment._id)}/></span>
                </div>)}
  </div>
   <p className='c-content'>
@@ -96,7 +130,7 @@ const Comment = ({data}) => {
 <CommentP data={{totalP,page,post}}/>
 <br/>
 
-           <div className='publish-c'>
+           <div ref={cEdit} className='publish-c'>
              <TextField
           id="outlined-multiline-flexible"
           label="Comment"
@@ -110,7 +144,13 @@ const Comment = ({data}) => {
                   <CircularProgress />
                 </Box>
                 :
+                <>
+                {edit?
+                    <button onClick={editComment}> Update Comment </button>
+                    :
         <button onClick={postComment}> Comment </button>
+                }
+                </>
 }
              </div>
             

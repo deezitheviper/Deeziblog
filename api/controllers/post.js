@@ -35,7 +35,7 @@ export const getPost = async (req, res, next) => {
     const total = await post.comments.length
     const postC = await Post.findOne({slug:req.params.id}, {comments:{$slice:[startIndex,limit]}})
     const comments = postC.comments
-    res.status(200).json({data:post,comments:comments,totalPages:Math.ceil(total/limit)})
+    res.status(200).json({post:post,likes:post.likes,comments:comments,totalPages:Math.ceil(total/limit)})
 
 }
 
@@ -43,8 +43,8 @@ export const createPost = async (req, res, next) => {
     const post = new Post(req.body)
     const savedPost =  await post.save()
     .catch(err => next(err))
-    console.log(savedPost)
-    res.status(200).json(savedPost)
+    const {cat, slug} = savedPost
+    res.status(200).json({cat:cat, slug:slug})
 }
 
 export const updatePost = async (req, res, next) => {
@@ -53,7 +53,8 @@ export const updatePost = async (req, res, next) => {
     },{
         new:true
     }).catch(err => res.status(500).json(err))
-    res.status(200).json(updatedPost)
+    const {cat, slug} = updatedPost
+    res.status(200).json({cat:cat, slug:slug})
 }
 
 export const likePost = async (req, res, next) => {
@@ -94,6 +95,20 @@ export const commentPost = async (req, res, next) => {
     res.status(200).json({lastPage : Math.ceil(totalC/limit)})
 }
 
+export const updateComment = async (req, res, next) => {
+    const {postId,cId} = req.params
+    const {body} = req.body
+    const limit = 2
+    const post = await Post.findById(postId)
+    .catch(err => next(err))
+    const updatedPost = await Post.findOneAndUpdate({_id:postId,"comments._id":cId},{$set:{"comments.$.body":body}}, {new: true})
+    .catch(err => next(err))
+    const index = post.comments.findIndex(id => id.id == String(cId))
+    const page = Math.ceil((index+1)/limit)
+    console.log(updatedPost.comments,req.body)
+    res.status(200).json({page:page,msg:"Comment Updated"})
+} 
+
 export const likeComment = async (req, res, next) => {
     const {postId, cId} = req.params
     const userId = req.user.id
@@ -114,7 +129,6 @@ export const likeComment = async (req, res, next) => {
 
 export const deleteComment = async (req, res, next) => {
     const {postId,cId} = req.params
-    console.log(postId)
     const post = await Post.findOneAndUpdate({_id:postId},{$pull:{comments:{_id:cId}}},{new:true})
     .catch(err => next(err))
     console.log(post)

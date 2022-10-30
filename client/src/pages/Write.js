@@ -75,23 +75,31 @@ const Create = () => {
       
         if (state){
             setLoading(true)
-            await instance.put(`/posts/${state.slug}`,{...inputs,
+            try{
+            const res = await instance.put(`/posts/${state.slug}`,{...inputs,
                 body:content,
                 slug:slugify(inputs.title)})
-            .catch(err => console.log(err)) 
+                const {slug, cat} = res.data
+            navigate(`/${cat}/${slug}/`)
+            }catch(err) {console.log(err)}
+            
            
         }
         else{
             setLoading(true)
+            try{
            const res = await instance.post('/posts/createPost',{...inputs,
             body:content,
             authur: currentUser.username,
             slug:slugify(inputs.title)
         })
-            .catch(err => console.log(err.response.data)) 
+        const {slug, cat} = res.data
+        navigate(`/${cat}/${slug}/`)
+     }catch(err) {
+        console.log(err.response.data)
+     } 
     }
     setLoading(false)
-    navigate('/')
 }else{
     checkForm()
 }
