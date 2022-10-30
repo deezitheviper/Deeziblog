@@ -171,6 +171,9 @@ form{
       }
       @media screen and (max-width: 768px) {
       
+        .links.expanded{
+            display: block;
+        }
         .links {
             display: none;
             z-index: 1;

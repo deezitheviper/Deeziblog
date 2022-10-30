@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import logo from '../assets/img/Deeziblog.png';
 import {Link, useNavigate} from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -15,7 +15,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 const Header = () => {
     const {currentUser, logout} = useContext(AuthContext)
     const [search, setSearch] = useState('');
+    const [expanded, setExpanded] = useState(false)
     const navigate = useNavigate();
+
+
+
+
 
     const searchPost =  async () => {
         if(search.trim()){
@@ -28,14 +33,18 @@ const Header = () => {
         if(e.keyCode == 13)
             searchPost()
     }
+
+    useEffect(()=> {
+        setExpanded(false)
+    },[navigate])
     return (
         <>
         <div className='navbar'>
             <div className='container'>
                 
                 <div><Link to="/"><img className='logo' src={logo} alt="deeziblog" /></Link></div>
-                <MenuIcon className="hamburger"/>
-                <div className='links'>
+                <MenuIcon className="hamburger" onClick={() => setExpanded(!expanded)}/>
+                <div className={expanded?'links expanded': 'links'}>
                     
                     <Link to="/Python" className='link'><h6>Python </h6></Link>
                     <Link to="/Javascript" className='link'><h6>Javascript</h6></Link>
