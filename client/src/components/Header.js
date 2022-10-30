@@ -46,10 +46,10 @@ const Header = () => {
                 <MenuIcon className="hamburger" onClick={() => setExpanded(!expanded)}/>
                 <div className={expanded?'links expanded': 'links'}>
                     
-                    <Link to="/Python" className='link'><h6>Python </h6></Link>
-                    <Link to="/Javascript" className='link'><h6>Javascript</h6></Link>
-                    <Link to="/OffensiveSec" className='link'><h6>Offensive Security</h6></Link>
-                    <Link to="/ML" className='link'><h6>Machine Learning</h6></Link>
+                    <Link to="/Category/Python" className='link'><h6>Python </h6></Link>
+                    <Link to="/Category/Javascript" className='link'><h6>Javascript</h6></Link>
+                    <Link to="/Category/OffensiveSec" className='link'><h6>Offensive Security</h6></Link>
+                    <Link to="/Category/ML" className='link'><h6>Machine Learning</h6></Link>
                     {currentUser?
                     <>
                     
