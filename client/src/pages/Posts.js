@@ -4,6 +4,7 @@ import instance from '../config/axios.js';
 import Pagin from './Pagination.js';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import DOMPurify from "dompurify";
 
 
 const useQuery = () => {
@@ -23,10 +24,6 @@ const Posts = () => {
     const [loading, setLoading] = useState(false)
 
 
-    const getText = (html) => {
-        const doc = new DOMParser().parseFromString(html, "text/html")
-        return doc.body.textContent
-    }
 
     useEffect(()=> {
         const fetchArticle = async () => {
@@ -68,7 +65,10 @@ const Posts = () => {
                                 <Link className="title" to={`/${post?.cat}/${post?.slug}`}>
                                 <h1>{post?.title}</h1>
                                 </Link>  
-                                <p>{`${getText(post?.body).slice(0, 400)}...`}</p>   
+                                <p dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(post?.body.slice(0, 400)+'...')
+          }} />
+                                   
                                <Link className='btn' to={`/post/${post?.slug}`}>Read more</Link>
                             </div>
                         </div>

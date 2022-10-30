@@ -13,7 +13,7 @@ const Sidebar = ({post}) => {
         const getCatPost = async () => {
         const res = await instance.get(`/posts/cat/${post.cat}`)
         .catch(err => console.log(err.response.data))
-        setPosts(res.data)
+        setPosts(res.data.similarPosts)
         }
         getCatPost();
     },[post.cat])
