@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
-  RouterProvider,
+  Navigate,
+  RouterProvider
 } from "react-router-dom";
 import Post from "./pages/Post";
 import Home from "./pages/Home";
@@ -8,15 +9,13 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Write from "./pages/Write";
 import Layout from "./components/Layout";
-import Python from "./pages/categories/Python";
-import Javascript from "./pages/categories/Javascript";
-import MachineLearning from "./pages/categories/ML";
+import Cat from "./pages/categories/Cat";
 import Posts from "./pages/Posts";
-import OS from "./pages/categories/OS";
 import './assets/style.scss';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+
 
 
 const router = createBrowserRouter([
@@ -37,20 +36,8 @@ const router = createBrowserRouter([
         element: <Posts/>,
       },
       {
-        path: "/Python",
-        element: <Python />,
-      },
-      {
-        path: "/Javascript",
-        element: <Javascript />,
-      },
-      {
-        path: "/ML",
-        element: <MachineLearning />,
-      },
-      {
-        path: "/Offensivesec",
-        element: <OS />,
+        path: "/Category/:cat",
+        element: <Cat />,
       },
       {
         path: "/create",
@@ -59,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/:cat/:slug",
         element: <Post/>,
+      },
+      {
+        path: "*",
+        element:< Navigate to="/"/>,
       },
     ]
   },
@@ -69,7 +60,8 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
-  }
+  },
+
   
 ]);
 
