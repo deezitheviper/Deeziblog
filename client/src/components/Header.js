@@ -9,6 +9,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import { AuthContext } from '../context/authContext';
 import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 const Header = () => {
@@ -33,6 +34,7 @@ const Header = () => {
             <div className='container'>
                 
                 <div><Link to="/"><img className='logo' src={logo} alt="deeziblog" /></Link></div>
+                <MenuIcon className="hamburger"/>
                 <div className='links'>
                     
                     <Link to="/Python" className='link'><h6>Python </h6></Link>
@@ -41,23 +43,26 @@ const Header = () => {
                     <Link to="/ML" className='link'><h6>Machine Learning</h6></Link>
                     {currentUser?
                     <>
+                    
                     <Tooltip title={`${currentUser?.username}`}>
-                    <span><AccountCircleIcon/></span>
+                    <AccountCircleIcon className='account'/>
                     </Tooltip>
                     <Tooltip title="Logout">
-                    <span><LogoutIcon onClick={logout} /></span>
+                   <LogoutIcon className='account' onClick={logout} />
                     </Tooltip>
                     <Tooltip title="create">
-                    <span><Link to="/create"><CreateIcon className='create' /></Link></span>
+                    <Link to="/create">
+                        <CreateIcon className='write' /></Link>
                     </Tooltip>
+                    
                     </>
                     : 
                     <>
                     <Tooltip title={`Login`}>
-                    <span><Link to="/login"><LoginIcon/></Link></span>
+                   <Link to="/login"><LoginIcon className='account'/></Link>
                     </Tooltip>
                     <Tooltip title="Register">
-                    <span><Link to="/register"><InputIcon /></Link></span>
+                   <Link to="/register"><InputIcon className='account' /></Link>
                     </Tooltip>
                     </>
                     }

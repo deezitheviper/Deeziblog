@@ -76,7 +76,7 @@ form{
         }
     .link{
         text-decoration: none;
-        color: inherit;
+ 
         
     }
    
@@ -86,6 +86,7 @@ form{
     //navigation
     .navbar{
         margin-bottom: 50px;
+        
         hr{
             border: 0.08px solid #cbcaca;
         }
@@ -96,11 +97,33 @@ form{
             justify-content: space-between;
         
         .links{
-            display: flex;
             align-items: center;
             gap: 10px;
+            margin-left: auto;
+            
             .link{
                 color: #818181;
+                h6{
+                    font-weight: 400;
+                    font-size: 16px;
+                    text-transform: capitalize;
+                    .offensive{
+                        color: $offensive;
+                    }
+                }
+            }
+            .write{
+                color: $light-coral;
+                &:hover{
+                    color: teal;
+                    font-size: 30px;
+                }
+            }
+            .account{
+                cursor: pointer;
+                //color: #4f4d4d;
+              
+               
             }
         }
         .logo{
@@ -108,20 +131,7 @@ form{
             height: 50px;
         }
 
-        .create{
-            color: $light-coral;
-
-            &:hover{
-                color: teal;
-                font-size: 30px;
-            }
-        }
-        span{
-            cursor: pointer;
-            //color: #4f4d4d;
-            color: #128be2;
-           
-        }
+       
         h5{
             color: #6b6969;
             font-weight: 900;
@@ -131,17 +141,74 @@ form{
                 color: $offensive;
             }
         }
-        h6{
-            color: #6b6969;
+     
+    }
+    }
+ 
+
+      .hamburger {
+        // removes default border on button element
+        border: 0;
+        height: 40px;
+        width: 40px;
+        padding: 0.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      // positions the icon to the right and center aligns it vertically
+        position: absolute;
+        top: 6%;
+        right: 25px;
+        transform: translateY(-50%);
+        display: none;
+      }
+   
+
+      @media screen and (max-width: 768px) {
+        .hamburger {
+          display: block;
+        }
+      }
+      @media screen and (max-width: 768px) {
+      
+        .links {
+            display: none;
+            z-index: 1;
+          position: absolute;
+          top: 60px;
+          right: 0;
+          // stacks the li tags vertically 
+          flex-direction: column;
+         // makes menu span full height and width
+          width: 100%;
+          height: fit-content;
+          background-color: rgb(73, 132, 164);
+          border-top: 1px solid $dark-coral;
+          text-align: center;
+          padding: 10px;
+          margin-top: 20px;
+          .link link:hover{
+            background-color: #eee;
+          }
+          .account{
+            color: #fdfdfd;
+            padding: 10px;
+          }
+
+          .write{
+            padding: 10px;
+          }
+          h6{
+            color: rgb(245, 242, 242);
             font-weight: 400;
             font-size: 16px;
             text-transform: capitalize;
-            .offensive{
-                color: $offensive;
-            }
-        }
+          }
     }
     }
+
+    //search bar
+
     .searchbar{
         text-align: end;
         .bar{
@@ -574,7 +641,7 @@ form{
                 height: 50px;
             }
     
-            .create{
+            .write{
                 color: $light-coral;
     
                 &:hover{
@@ -582,7 +649,7 @@ form{
                     font-size: 30px;
                 }
             }
-            span{
+            .account{
                 cursor: pointer;
                 //color: #4f4d4d;
                 color: #128be2;
