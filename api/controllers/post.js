@@ -27,13 +27,14 @@ export const getCatPost = async (req, res, next) => {
 
 export const userPosts = async (req, res, next) => {
     const {page} = req.query
-    const limit = 10;
+    const limit = 2;
     const startIndex = (Number(page)-1)*limit
-    const userposts = await Post.find({authur:req.params.id}).sort({_id:-1}).limit(limit).skip(startIndex)
+    const userposts = await Post.find({authur:req.params.id})
+    const pagposts = await Post.find({authur:req.params.id}).sort({_id:-1}).limit(limit).skip(startIndex)
     .catch(err => next(err))
-    const total = userposts.length
-    const totalP = Math.ceil(total/limit)
-    res.status(200).json({posts:userposts,totalP:totalP})
+    const total = userposts.length 
+    const totalP = Math.ceil(total/limit) 
+    res.status(200).json({posts:pagposts,totalP:totalP})
 }
 export const getSearchPost = async (req, res, next) => {
     const {searchQ} = req.query

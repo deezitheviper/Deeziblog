@@ -1,26 +1,45 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams,Link } from 'react-router-dom';
+import { useParams,Link, useLocation } from 'react-router-dom';
 import avatar from '../assets/img/avatar.png';
 import instance from '../config/axios';
 import { AuthContext } from '../context/authContext';
 import Divider from '@mui/material/Divider';
+import ProfilePagin from './ProfilePagination';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search)
+}
 const Profile = () => {
-    const [posts, setPosts] = useState([]);
+    const query = useQuery();
+    const page = Number(query.get('page')) || 1
+    const [data, setData] = useState({
+        posts:[],
+        totalP: 1
+    });
+    const {posts, totalP} = data;
     const {currentUser} = useContext(AuthContext);
-    const {authur} = useParams()
+    const {authur} = useParams();
+    const [loading, setLoading] = useState(false);
+
+
+
+
     useEffect(()=> {
         const fetchpost = async () => {
+            setLoading(true)
         try{
-            const res = await instance.get(`posts/userposts/${authur}`)
+            const res = await instance.get(`posts/userposts/${authur}/?page=${page}`)
             const {posts, totalP} = res.data
-            setPosts(posts)
+            setData(data => ({...data,posts:posts,totalP:totalP}))
         }catch(err){
             console.log(err)
         }
+        setLoading(false)
     }
     fetchpost()
-    },[])
+    },[page])
     return (
         <div className='profilePage'>
             <div className='profileP'>
@@ -37,7 +56,12 @@ const Profile = () => {
             <h3>Published Posts</h3>
             <Divider/> 
             <div className='blog-content'>
-           
+            {loading? 
+                  <Box sx={{ display: 'flex' }}>
+                  <CircularProgress />
+                </Box>
+                :
+                <>
             {posts?.map(post => (
                 <div className='content' key={post._id}>
                
@@ -63,7 +87,10 @@ const Profile = () => {
   </div>
   </div>
             ))}
+            </>
+}
             </div>
+            <ProfilePagin data={{authur,data, totalP}} />
             </div>
         </div>
     );
