@@ -8,7 +8,7 @@ import ProfilePagin from './ProfilePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import moment from "moment";
-
+import CreateIcon from '@mui/icons-material/Create';
 
 
 const useQuery = () => {
@@ -51,10 +51,22 @@ const Profile = () => {
          <Divider/>
                 <>
                 <div className='profile'>
+                    <div className='img-con'>
                     <img className="pic" src={avatar} alt=""/>
+                    {currentUser?.username === authur?
+                    <CreateIcon className='edit-icon'/>
+                    : null
+                    }
+                    </div>
                     <div className='info'>
                     <h3>{authur}</h3>
                     <p>Joined: <small>{moment(joined).format("MMMM Do YYYY")}</small></p>
+
+                    <div className='user-detail'>
+                    <p>Email: <small>johndoe@gmail.com</small></p>
+
+                    <button className="edit-btn">Edit Profile</button>
+                    </div>
                     </div>
                 </div>
                 </>
