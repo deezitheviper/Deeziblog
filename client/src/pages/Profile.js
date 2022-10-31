@@ -7,6 +7,9 @@ import Divider from '@mui/material/Divider';
 import ProfilePagin from './ProfilePagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import moment from "moment";
+
+
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search)
@@ -16,9 +19,10 @@ const Profile = () => {
     const page = Number(query.get('page')) || 1
     const [data, setData] = useState({
         posts:[],
-        totalP: 1
+        totalP: 1,
+        joined:""
     });
-    const {posts, totalP} = data;
+    const {posts, totalP, joined} = data;
     const {currentUser} = useContext(AuthContext);
     const {authur} = useParams();
     const [loading, setLoading] = useState(false);
@@ -31,8 +35,9 @@ const Profile = () => {
             setLoading(true)
         try{
             const res = await instance.get(`posts/userposts/${authur}/?page=${page}`)
-            const {posts, totalP} = res.data
-            setData(data => ({...data,posts:posts,totalP:totalP}))
+            const {posts, totalP, joined} = res.data
+            console.log(res)
+            setData(data => ({...data,posts:posts,totalP:totalP, joined:joined}))
         }catch(err){
             console.log(err)
         }
@@ -43,13 +48,16 @@ const Profile = () => {
     return (
         <div className='profilePage'>
             <div className='profileP'>
+         
+                <>
                 <div className='profile'>
                     <img className="pic" src={avatar} alt=""/>
                     <div className='info'>
                     <h3>{authur}</h3>
-                    <p>Joined: 19th August</p>
+                    <p>Joined: <small>{moment(joined).format("MMMM Do YYYY")}</small></p>
                     </div>
                 </div>
+                </>
 
             </div>
             <div className='profile-blog'>

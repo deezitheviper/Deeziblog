@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 import Post from '../models/Post.js';
+import User from '../models/User.js';
+
+
 
 export const getPosts = async (req, res, next) => {
     const {page} = req.query
@@ -27,14 +30,16 @@ export const getCatPost = async (req, res, next) => {
 
 export const userPosts = async (req, res, next) => {
     const {page} = req.query
+    const {id} = req.params
     const limit = 2;
+    const user = await User.findOne({"username":id}) 
     const startIndex = (Number(page)-1)*limit
-    const userposts = await Post.find({authur:req.params.id})
-    const pagposts = await Post.find({authur:req.params.id}).sort({_id:-1}).limit(limit).skip(startIndex)
+    const userposts = await Post.find({authur:id})
+    const pagposts = await Post.find({authur:id}).sort({_id:-1}).limit(limit).skip(startIndex)
     .catch(err => next(err))
     const total = userposts.length 
     const totalP = Math.ceil(total/limit) 
-    res.status(200).json({posts:pagposts,totalP:totalP})
+    res.status(200).json({posts:pagposts,totalP:totalP, joined:user.createdAt})
 }
 export const getSearchPost = async (req, res, next) => {
     const {searchQ} = req.query
