@@ -694,6 +694,20 @@ form{
     }
 }
 
+@media screen and (max-width: 768px) {
+    .profilePage{
+        flex-direction: column;
+        .profileP{       
+            .profile{
+                .pic{
+                    align-self: center;
+                    height: 100px;
+                    width: 100px;
+                }
+            }
+    }
+  }
+}
 //Pagination
 .pagn{
     margin-top: 100px;

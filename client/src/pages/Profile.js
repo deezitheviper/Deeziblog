@@ -48,7 +48,7 @@ const Profile = () => {
     return (
         <div className='profilePage'>
             <div className='profileP'>
-         
+         <Divider/>
                 <>
                 <div className='profile'>
                     <img className="pic" src={avatar} alt=""/>
