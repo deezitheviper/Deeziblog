@@ -101,7 +101,7 @@ if(update) {
 }
                <div className='info'>
 
-                   <span>{post?.authur}</span>    
+                   <span><Link to={`/Profile/${post?.authur}`}>{post?.authur}</Link></span>    
                    <p>Posted {moment(post?.date).fromNow()}</p>
                    
                </div> 

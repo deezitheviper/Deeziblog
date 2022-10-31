@@ -15,6 +15,7 @@ import './assets/style.scss';
 import 'react-quill/dist/quill.snow.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Profile from "./pages/Profile";
 
 
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/:cat/:slug",
         element: <Post/>,
+      },
+      {
+        path: "/Profile/:authur",
+        element: <Profile/>,
       },
       {
         path: "*",
