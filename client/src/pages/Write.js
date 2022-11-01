@@ -7,6 +7,7 @@ import FileBase from 'react-file-base64';
 import { AuthContext } from '../context/authContext.js';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import {toast} from 'react-toastify';
 
 const Create = () => {
     const state = useLocation().state
@@ -14,7 +15,7 @@ const Create = () => {
     const {currentUser} = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [content, setContent] = useState( state?.body || "")
-
+    const [file, setFile] = useState()
     const navigate = useNavigate();
 
     const slugify = str =>
@@ -69,6 +70,20 @@ const Create = () => {
         setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
+    const checkImage = (file) => {
+        const types = ['image/png', 'image/jpeg']
+        let err = null;
+        if(!file) return err = "File does not exist."
+      
+        if(file.file.size > 1024 * 1024) // 1mb
+          err = "The largest image size is 1mb"
+      
+        if(!types.includes(file.type))
+          err = "The image type is png / jpeg"
+
+        if(!err) setInput({ ...inputs, img: file.base64 })
+        return  toast.error(err);
+    }      
     const handlePublish = async (e) => {
         e.preventDefault()
         if(checkForm()){
@@ -132,7 +147,7 @@ const Create = () => {
                  <FileBase
         type="file"
         multiple={false}
-        onDone={({ base64 }) => setInput({ ...inputs, img: base64 })
+        onDone={file => checkImage(file) //setInput({ ...inputs, img: base64 })
         }
       />
                     <br/>
