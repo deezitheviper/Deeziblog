@@ -1,6 +1,7 @@
   $light-coral : rgb(255, 170, 59);
   $dark-coral: rgb(255, 153, 80);
   $offensive: #f44250;
+  $primary: #128be2 ;
   $break-p:640px;
   $break-t:768px; 
   $break-d:992px;
@@ -410,7 +411,7 @@ form{
                     padding: 10px;
                     border: none;
                     border-radius: 5px;
-                    background-color: #128be2;
+                    background-color: $primary;
                     color: #ffffff;
                 }
             }
@@ -554,7 +555,7 @@ form{
                     padding: 10px;
                     border: none;
                     border-radius: 5px;
-                    background-color: #128be2;
+                    background-color: $primary;
                     color: #ffffff;
                 }
             }
@@ -562,7 +563,7 @@ form{
                 display: flex;
                 gap: 10px;
                 input[type="radio" i] {
-                    color: #128be2;
+                    color: $primary;
                 }
             }
         }
@@ -593,22 +594,29 @@ form{
           flex-direction: column;
           .img-con{
           position: relative;
+          input {
+            visibility:hidden;
+            width:0;
+            height:0
+          }
             .pic{
                 display: block;
                 align-self: center;
+                object-fit: contain;
                 height: 200px;
                 width: 200px;
-                border: 2px solid #128be2;
+                border: 2px solid $primary;
                 padding: 20px;
                 border-radius: 150px;
             }
             .edit-icon{
                 position: absolute; 
-                bottom:10px; right:30px;
+                bottom:30px; right:30px;
                 border: 1px solid rgb(193, 192, 192);
                 border-radius: 5px;
                 background-color: white;
                 padding:0 30px;
+                cursor: pointer;
             }
         }
             .info{
@@ -618,7 +626,7 @@ form{
              margin-top: 10px;
              padding: 20px;
              gap: 10px;
-             border: 1px solid #128be2;
+             border: 1px solid $primary;
              border-radius: 20px;
              
             h3{
@@ -638,8 +646,9 @@ form{
                     padding: 10px;
                     border: none;
                     border-radius: 5px;
-                    background-color: #128be2;
+                    background-color: $primary;
                     color: #ffffff;
+                    cursor: pointer;
            }
         }
 
@@ -712,21 +721,82 @@ form{
         }
     }
     }
+    .edit-profile{
+        display: flex;
+        border: 1px solid $primary;
+        padding: 100px;
+        border-radius: 5px;
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: end;
+        .danger{
+            color: #ff5a1d;
+        }
+        label{
+            align-self: flex-start;
+            color: #6b6969;
+            font-size: 14px;
+        }
+        input{
+            
+            padding: 10px;
+            border: 1px solid cornflowerblue;
+            border-radius: 5px;
+            margin-left: 20px;
+            width: 200px;
+        }
+        p{
+            align-self: start;
+            font-size: 14px;
+            color:#818181
+        }
+        button{
+            align-self: start;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: $dark-coral;
+            color: white;
+            cursor: pointer;
+        
+        }
+        span{
+            font-size: 14px;
+            text-align: center;
+            a{
+                color: $dark-coral;
+                text-decoration: none;
+            }
+        }
+    }
+}
 }
 
 @media screen and (max-width: 768px) {
     .profilePage{
         flex-direction: column;
+        gap: 30px;
         .profileP{       
             .profile{
                 .img-con{
                    align-self: center;
                       .edit-icon{
-                          bottom:5px; right:20px;
+                          bottom:30px; right:20px;
                       
                       }
                   }
             }
+    }
+               
+    .edit-profile{
+       padding: 20px;
+       form{
+        .username{
+            display: inline-flex;
+        }
+       }
     }
   }
 }
@@ -815,7 +885,7 @@ form{
             .account{
                 cursor: pointer;
                 //color: #4f4d4d;
-                color: #128be2;
+                color: $primary;
                
             }
             h5{
@@ -1020,7 +1090,7 @@ form{
                             padding: 10px;
                             border: none;
                             border-radius: 5px;
-                            background-color: #128be2;
+                            background-color: $primary;
                             color: #ffffff;
                         }
                     }
@@ -1165,7 +1235,7 @@ form{
                         padding: 10px;
                         border: none;
                         border-radius: 5px;
-                        background-color: #128be2;
+                        background-color: $primary;
                         color: #ffffff;
                     }
                 }
@@ -1173,7 +1243,7 @@ form{
                     display: flex;
                     gap: 10px;
                     input[type="radio" i] {
-                        color: #128be2;
+                        color: $primary;
                     }
                 }
             }

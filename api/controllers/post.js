@@ -29,12 +29,15 @@ export const getCatPost = async (req, res, next) => {
 } 
 
 export const userPosts = async (req, res, next) => {
+    
     const {page} = req.query
     const {id} = req.params
     const limit = 2;
-    const user = await User.findOne({"username":id}) 
+    const user = await User.findOne({"username":id})
+    .catch(err => next(err)) 
     const startIndex = (Number(page)-1)*limit
     const userposts = await Post.find({authur:id})
+    .catch(err => next(err))
     const pagposts = await Post.find({authur:id}).sort({_id:-1}).limit(limit).skip(startIndex)
     .catch(err => next(err))
     const total = userposts.length 

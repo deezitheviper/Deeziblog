@@ -49,7 +49,7 @@ mongoose.connection.on('disconnected', () => {
 app.get('/', (req, res)=>{
     res.send("Hello")
 })
-app.use('/api/users', userRouter)
+app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
 app.use((err,req,res,next) => {
