@@ -6,7 +6,7 @@ export const getUser = async (req, res, next) => {
     const {id} = req.params 
     const user = await User.findOne({"username":id})
     const {password, ...otherDetails} = user._doc
-    console.log(otherDetails)
+    res.status(200).json(otherDetails)
 }
 
 export const updateUser = async (req, res, next) => {

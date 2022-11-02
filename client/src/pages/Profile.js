@@ -24,16 +24,21 @@ const Profile = () => {
     const [data, setData] = useState({
         posts:[],
         totalP: 1,
-        joined:""
+        joined:"",
+        username:"",
+        email:"",
+        profilepic:""
     });
-    const {posts, totalP} = data;
+    const {posts,email, username,joined, totalP, profilepic} = data;
     const {currentUser} = useContext(AuthContext);
-    const {username,_id, email} = currentUser;
+    const {_id} = currentUser;
     const {authur} = useParams();
     const [loading, setLoading] = useState(false);
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState("");
-    const [update, setUpdate] = useState(false)
+    const [update, setUpdate] = useState(false);
+    const [updateLoading, setUpdateLoading] = useState(false);
+
     const [inputs, setInputs] = useState({
         useremail:"",
         img:"",
@@ -105,19 +110,22 @@ const Profile = () => {
 
     const handleSubmit = async e => {
         e.preventDefault();
+        
         if(update === false) return toast.info("No changes has been made")
         if(file){
             setInputs(prev => ({...prev,img:file.base64}))
         }
+        setUpdateLoading(true)
         if(img || useremail){
-
+            
             if(checkForm() == true){
-                setLoading(true)
+                
                 try{
-            const res = await instance.patch(`user/${username}`,{img,email})
+            const res = await instance.patch(`user/${username}`,{avatar:img,email})
            toast.success(res.data)
            setUpdate(false)
            setEdit(false)
+           setDone(true)
            
                 }catch(err) {
                      console.log(err)
@@ -126,29 +134,41 @@ const Profile = () => {
         }
         if(password){
             if(checkPass() == true){
+                
         try{
             const res = await instance.patch(`user/resetpass/${_id}`,{password})
             toast.success(res.data)
+            setUpdate(false)
+            setEdit(false)
+            setDone(true)
         }catch(err) { console.log(err)}
            
             }
         }
        
-        setLoading(false)
+        setUpdateLoading(false)
     }
     useEffect(()=> {
+        
         const fetchpost = async () => {
             setLoading(true)
         try{
             
             const res = await instance.get(`posts/userposts/${authur}/?page=${page}`)
-            const {posts, totalP, joined} = res.data
-            setData(data => ({...data,posts:posts,totalP:totalP, joined:joined}))
+            const {posts, totalP} = res.data
+            setData(data => ({...data,posts:posts,totalP:totalP}))
         }catch(err){
             console.log(err)
         }
         setLoading(false)
     }
+
+    const getUser = async () => {
+        const res = await instance.get(`user/${authur}`)
+        const {username, email,createdAt, profilepic} = res.data;
+        setData(prev => ({...prev, username:username,email:email,profilepic:profilepic, joined:createdAt}))
+    }
+    getUser()
     fetchpost()
     },[page])
     return (
@@ -158,7 +178,8 @@ const Profile = () => {
                 <>
                 <div className='profile'>
                     <div className='img-con'>
-                    <img className="pic" src={file?file.base64:avatar} alt=""/>
+                    
+                    <img className="pic" src={file?file.base64:profilepic} alt=""/>
                     {currentUser?.username === authur & edit?
                     <label >
                          <CreateIcon className='edit-icon'/>
@@ -175,7 +196,7 @@ const Profile = () => {
                     </div>
                     <div className='info'>
                     <h3>{authur}</h3>
-                    <p>Joined: <small>{moment(currentUser?.joined).format("MMMM Do YYYY")}</small></p>
+                    <p>Joined: <small>{moment(joined).format("MMMM Do YYYY")}</small></p>
 {currentUser.username === authur &&(
     <div className='user-detail'>
                     <p>Email: <small>{currentUser.email}</small></p>
@@ -209,8 +230,14 @@ const Profile = () => {
      <input type="password" placeholder="Password" onChange={handleChange} name="password" />
      <input type="password" placeholder="Confirm Password" onChange={handleChange} onBlur={checkPass} name="confirmpassword" />
      <div>
-
+        
+     {updateLoading? 
+                  <Box sx={{ display: 'flex' }}>
+                  <CircularProgress />
+                </Box>
+                :
      <button onClick={handleSubmit}  >Update Profile</button> 
+}
      </div>
      </form>
      

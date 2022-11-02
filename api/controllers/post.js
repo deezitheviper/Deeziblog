@@ -33,8 +33,6 @@ export const userPosts = async (req, res, next) => {
     const {page} = req.query
     const {id} = req.params
     const limit = 2;
-    const user = await User.findOne({"username":id})
-    .catch(err => next(err)) 
     const startIndex = (Number(page)-1)*limit
     const userposts = await Post.find({authur:id})
     .catch(err => next(err))
@@ -42,7 +40,7 @@ export const userPosts = async (req, res, next) => {
     .catch(err => next(err))
     const total = userposts.length 
     const totalP = Math.ceil(total/limit) 
-    res.status(200).json({posts:pagposts,totalP:totalP, joined:user.createdAt})
+    res.status(200).json({posts:pagposts,totalP:totalP})
 }
 export const getSearchPost = async (req, res, next) => {
     const {searchQ} = req.query
