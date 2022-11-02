@@ -8,7 +8,13 @@ export const getUser = async (req, res, next) => {
     const {password, ...otherDetails} = user._doc
     res.status(200).json(otherDetails)
 }
-
+export const userAvatar = async (req, res, next) => {
+    const {id} = req.params 
+    const user = await User.findOne({"username":id})
+    .catch(err => next(err))
+    const {profilepic, ...otherDetails} = user
+    res.status(200).json(profilepic)
+}
 export const updateUser = async (req, res, next) => {
     const {id} = req.params;
     const {email, avatar} = req.body;
