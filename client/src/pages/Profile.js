@@ -109,8 +109,7 @@ const Profile = () => {
     }
 
     const handleSubmit = async e => {
-        e.preventDefault();
-        
+        e.preventDefault()
         if(update === false) return toast.info("No changes has been made")
         if(file){
             setInputs(prev => ({...prev,img:file.base64}))

@@ -54,12 +54,13 @@ export const getPost = async (req, res, next) => {
     const {page} = req.query
     const post = await Post.findOne({slug:req.params.id})
     .catch(err => next(err))
+    const authur = await User.findOne({username:post.authur})
     const limit = 2;
     const startIndex = (Number(page)-1) * limit;
     const total = await post.comments.length
     const postC = await Post.findOne({slug:req.params.id}, {comments:{$slice:[startIndex,limit]}})
     const comments = postC.comments
-    res.status(200).json({post:post,likes:post.likes,comments:comments,totalPages:Math.ceil(total/limit)})
+    res.status(200).json({post:post,avatar:authur.profilepic,likes:post.likes,comments:comments,totalPages:Math.ceil(total/limit)})
 
 }
 

@@ -6,7 +6,6 @@ import Sidebar from '../components/Sidebar';
 import instance from '../config/axios';
 import moment from 'moment';
 import { AuthContext } from '../context/authContext.js';
-import avatar from '../assets/img/avatar.png';
 import DOMPurify from "dompurify";
 import Stack from '@mui/material/Stack';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -29,13 +28,14 @@ const [data, setData] = useState({
     post:{},
     likes: [],
     totalP: 1,
-    comments:[]
+    comments:[],
+    avatar: ""
 })
 const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post,totalP,comments,likes} = data;
+const {post,totalP,comments,likes, avatar} = data;
 const csection = useRef(null);
 
 
@@ -68,8 +68,8 @@ const getPost = async () => {
     setLoading(true)
     const res = await instance.get(`/posts/${slug}/?page=${page}`)
     .catch(err => console.log(err))
-    const {post,likes,comments,totalPages} = res.data
-    setData(e => ({...data, post:post,comments:comments,likes:likes,totalP:totalPages }) )
+    const {post,likes,comments,totalPages,avatar} = res.data
+    setData(e => ({...data, post:post,comments:comments,likes:likes,totalP:totalPages, avatar:avatar }) )
     setLoading(false)
 
 }
@@ -94,11 +94,10 @@ if(update) {
                 <img src={post?.img} alt=""/>
              
                 <div className='profile'>
-               {currentUser?.profilepic?
-               <img src='https://www.fillmurray.com/640/360' alt="account" />
-               :
+            
+            
                <img src={avatar} alt="account" />
-}
+
                <div className='info'>
 
                    <span><Link to={`/Profile/${post?.authur}`}>{post?.authur}</Link></span>    
