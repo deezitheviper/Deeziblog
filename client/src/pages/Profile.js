@@ -125,7 +125,6 @@ const Profile = () => {
            toast.success(res.data)
            setUpdate(false)
            setEdit(false)
-           setDone(true)
            
                 }catch(err) {
                      console.log(err)
@@ -140,7 +139,7 @@ const Profile = () => {
             toast.success(res.data)
             setUpdate(false)
             setEdit(false)
-            setDone(true)
+            
         }catch(err) { console.log(err)}
            
             }
