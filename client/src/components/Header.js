@@ -54,7 +54,13 @@ const Header = () => {
                     <>
                     
                     <Tooltip title={`${currentUser?.username}`}>
+                        {currentUser.profilepic?
+                    <div className='headerprofile account'>
+                        <img src={currentUser.profilepic} alt="" />
+                    </div>    
+                    :
                     <AccountCircleIcon className='account'/>
+                        }
                     </Tooltip>
                     <Tooltip title="Logout">
                    <LogoutIcon className='account' onClick={logout} />

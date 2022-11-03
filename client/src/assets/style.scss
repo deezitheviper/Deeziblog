@@ -96,7 +96,7 @@ form{
             display: flex;
             align-items: center;
             justify-content: space-between;
-        
+            
         .links{
             align-items: center;
             gap: 10px;
@@ -126,6 +126,16 @@ form{
               
                
             }
+            .headerprofile{
+                
+                    img{
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 60%;
+                        object-fit: contain;
+                    }
+            }
+        
         }
         .logo{
             padding-top: 10px;
@@ -168,6 +178,15 @@ form{
       @media screen and (max-width: 768px) {
         .hamburger {
           display: block;
+        }
+        .headerprofile{
+                margin-top: 5px;
+                img{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 60%;
+                    object-fit: contain;
+                }
         }
       }
       @media screen and (max-width: 768px) {
