@@ -1,4 +1,4 @@
-#Full Fledge Custom blog with the mern stack;
+# Full Fledge Custom blog with the mern stack
 
 A full Fledge full stack custom blog using the MERN stack.
 With the following Features
