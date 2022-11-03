@@ -16,6 +16,7 @@ export const getPosts = async (req, res, next) => {
 } 
 
 
+
 export const getCatPost = async (req, res, next) => {
     const {page} = req.query
     const similarPosts = await Post.find({cat:req.params.cat}).sort({_id:-1})
@@ -63,6 +64,7 @@ export const getPost = async (req, res, next) => {
     res.status(200).json({post:post,avatar:authur.profilepic,likes:post.likes,comments:comments,totalPages:Math.ceil(total/limit)})
 
 }
+
 
 export const createPost = async (req, res, next) => {
     const post = new Post(req.body)
