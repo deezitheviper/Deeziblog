@@ -56,10 +56,10 @@ const Header = () => {
                     <Tooltip title={`${currentUser?.username}`}>
                         {currentUser.profilepic?
                     <div className='headerprofile account'>
-                        <img src={currentUser.profilepic} alt="" />
+                        <Link to={`/profile/${currentUser.username}`}><img src={currentUser.profilepic} alt="" /></Link> 
                     </div>    
                     :
-                    <AccountCircleIcon className='account'/>
+                    <Link to={`/profile/${currentUser.username}`}><AccountCircleIcon className='account'/></Link>
                         }
                     </Tooltip>
                     <Tooltip title="Logout">

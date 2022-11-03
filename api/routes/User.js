@@ -3,7 +3,7 @@ import { getUser, resetPass, updateUser, userAvatar } from "../controllers/user.
 import { verifyUser } from "../middleware/verify.js";
 const router = express.Router();
 
-router.get("/:id",verifyUser,getUser)
+router.get("/:id",getUser)
 router.patch("/:id",verifyUser,updateUser)
 router.get("/avatar/:id",userAvatar)
 router.patch("/resetpass/:id", verifyUser, resetPass)

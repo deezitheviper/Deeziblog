@@ -12,6 +12,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import EditProfile from './EditProfile';
 import FileBase from 'react-file-base64';
 import {toast} from "react-toastify";
+import Avatar from '../components/Avatar.js';
 
 
 const useQuery = () => {
@@ -31,14 +32,14 @@ const Profile = () => {
     });
     const {posts,email, username,joined, totalP, profilepic} = data;
     const {currentUser} = useContext(AuthContext);
-    const {_id} = currentUser;
+    //const {_id} = currentUser;
     const {authur} = useParams();
     const [loading, setLoading] = useState(false);
     const [edit, setEdit] = useState(false);
     const [file, setFile] = useState("");
     const [update, setUpdate] = useState(false);
     const [updateLoading, setUpdateLoading] = useState(false);
-
+    const [infoLoad, setInfoLoad] = useState(false)
     const [inputs, setInputs] = useState({
         useremail:"",
         img:"",
@@ -95,6 +96,7 @@ const Profile = () => {
   }
 
     const checkPass = e => {
+        setUpdate(true)
         let err= {}
         let valid = true
         if(password !== confirmpassword){
@@ -134,7 +136,7 @@ const Profile = () => {
             if(checkPass() == true){
                 
         try{
-            const res = await instance.patch(`user/resetpass/${_id}`,{password})
+            const res = await instance.patch(`user/resetpass/${currentUser?._id}`,{password})
             toast.success(res.data)
             setUpdate(false)
             setEdit(false)
@@ -162,9 +164,11 @@ const Profile = () => {
     }
 
     const getUser = async () => {
+        setInfoLoad(true)
         const res = await instance.get(`user/${authur}`)
         const {username, email,createdAt, profilepic} = res.data;
         setData(prev => ({...prev, username:username,email:email,profilepic:profilepic, joined:createdAt}))
+        setInfoLoad(false)
     }
     getUser()
     fetchpost()
@@ -175,8 +179,14 @@ const Profile = () => {
          <Divider/>
                 <>
                 <div className='profile'>
+                {infoLoad?
+   <Box sx={{ display: 'flex' }}>
+   <CircularProgress />
+ </Box>
+ :
+                    <>
                     <div className='img-con'>
-                    
+  
                     <img className="pic" src={file?file.base64:profilepic} alt=""/>
                     {currentUser?.username === authur & edit?
                     <label >
@@ -195,7 +205,7 @@ const Profile = () => {
                     <div className='info'>
                     <h3>{authur}</h3>
                     <p>Joined: <small>{moment(joined).format("MMMM Do YYYY")}</small></p>
-{currentUser.username === authur &&(
+{currentUser?.username === authur &&(
     <div className='user-detail'>
                     <p>Email: <small>{currentUser.email}</small></p>
 {edit?
@@ -207,8 +217,11 @@ const Profile = () => {
 ) }
                     
                     </div>
+                    </>
+}
                 </div>
                 </>
+
 
             </div>
             {edit? 
@@ -257,11 +270,7 @@ const Profile = () => {
                
                 <div className='l-content'>
                 <div className='profile'> 
-                {currentUser?.profilepic?
-                        <img src={currentUser.profilepic} alt="account" />
-                        :
-                        <img src={avatar} alt="account" /> 
-                }
+                <Avatar data={post.authur}/>
     <div className='info'>
         <span>{post.authur}</span>    
      </div>

@@ -14,7 +14,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from 'react-router-dom';
 import {toast} from 'react-toastify';
-import CAvatar from '../components/CAvatar';
+import Avatar from '../components/Avatar';
 
 
 const Comment = ({data}) => {
@@ -100,7 +100,7 @@ const Comment = ({data}) => {
   <div className='comment' key={comment._id}>
 <div className='c-header'>
   <div className='profile'> 
-    <CAvatar data={comment.authur}/> 
+    <Avatar data={comment.authur}/> 
     <div className='info'>
         <span>{comment.authur}</span>    
         
