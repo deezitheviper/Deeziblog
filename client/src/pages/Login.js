@@ -2,7 +2,8 @@ import React,{useContext, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import instance from '../config/axios.js';
 import { AuthContext } from '../context/authContext.js';
-
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Login = () => {
     const [inputs, setInputs] = useState({
@@ -10,6 +11,7 @@ const Login = () => {
         'password': ""
     });
     const [err, setErr] = useState("");
+    const [loading, setLoading] = useState(false);
     const {login} = useContext(AuthContext);
 
     const navigate = useNavigate();
@@ -19,11 +21,13 @@ const Login = () => {
     }
     const handleSubmit = async e => {
         e.preventDefault()
+        setLoading(true)
         try {
             await login(inputs)
             navigate("/")
         }catch(err){
          setErr(err.response.data.message)
+         setLoading(false)
         }
         
     }
@@ -34,7 +38,13 @@ const Login = () => {
             {err && <p className='danger'>{err}</p>}
                 <input type='text' placeholder="username or email" name="id" onChange={handleChange} />
                 <input type="password" placeholder="password" name="password" onChange={handleChange}/>
+               {loading?
                 <button onClick={handleSubmit}> Login </button>
+                :
+                <Box sx={{ display: 'flex',justifyContent:'center', alignItems:'center' }}>
+                <CircularProgress />
+              </Box>
+}
                 <span>No account? <Link to="/register">Register</Link></span>
             </form>
         </div>
