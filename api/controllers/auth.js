@@ -14,11 +14,13 @@ export const registerController = async (req, res, next) => {
         email: req.body.email.toLowerCase(),
         password: hash
     })
+    try{
     await newUser.save()
-    .catch(
-        err => next(err)
-    ) 
     res.status(200).send("User has been created")
+    }catch(err){
+        next(err)
+    }
+    
 }
 
 export const loginController = async (req, res, next) => {
