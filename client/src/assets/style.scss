@@ -6,7 +6,9 @@
   $break-t:768px; 
   $break-d:992px;
 
-  //authentication
+//authentication
+@import url('https://fonts.googleapis.com/css?family=Rubik+Glitch|Orbitron');
+
 .auth{
     background: linear-gradient(
         rgba(4, 1, 0, 0.908), 
@@ -158,10 +160,11 @@ form{
  
 
       .hamburger {
-        // removes default border on button element
+        
         border: 0;
         height: 40px;
         width: 40px;
+        color: #064b84;
         padding: 0.5rem;
         border-radius: 50%;
         cursor: pointer;
@@ -178,6 +181,8 @@ form{
       @media screen and (max-width: 768px) {
         .hamburger {
           display: block;
+          margin-top: 20px;
+          
         }
         .headerprofile{
                 margin-top: 5px;
@@ -198,17 +203,24 @@ form{
             display: none;
             z-index: 1;
           position: absolute;
-          top: 60px;
+          top: 80px;
           right: 0;
           // stacks the li tags vertically 
           flex-direction: column;
          // makes menu span full height and width
           width: 100%;
           height: fit-content;
-          background-color: rgb(73, 132, 164);
+          background-color: rgb(10 57 83);
           border-top: 1px solid $dark-coral;
           text-align: center;
           padding: 10px;
+          .link{
+            display: flex;
+            padding: 10px;
+            justify-content: center;
+            align-items: center;
+         
+          }
           margin-top: 20px;
           .link link:hover{
             background-color: #eee;

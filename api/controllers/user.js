@@ -4,9 +4,14 @@ import bcrypt from "bcryptjs";
 
 export const getUser = async (req, res, next) => {
     const {id} = req.params 
-    const user = await User.findOne({"username":id})
-    const {password, ...otherDetails} = user._doc
-    res.status(200).json(otherDetails)
+    try {
+        const user = await User.findOne({"username":id})
+        const {password, ...otherDetails} = user;
+        res.status(200).json(otherDetails)
+    }catch(err) {
+         next(err)
+    }
+   
 }
 export const userAvatar = async (req, res, next) => {
     const {id} = req.params 
