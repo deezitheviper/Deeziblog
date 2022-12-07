@@ -19,14 +19,17 @@ export const getPosts = async (req, res, next) => {
 
 export const getCatPost = async (req, res, next) => {
     const {page} = req.query
+    try{
     const similarPosts = await Post.find({cat:req.params.cat}).sort({_id:-1})
     const limit = 2;
     const startIndex = (Number(page)-1)*limit
     const posts = await Post.find({cat:req.params.cat}).sort({_id:-1}).limit(limit).skip(startIndex)
-    .catch(err => next(err))
     const total = posts.length
     const totalP = Math.ceil(total/limit)
     res.status(200).json({posts:posts,similarPosts:similarPosts,total:totalP})
+    }catch(err){
+        next(err)
+    }
 } 
 
 export const userPosts = async (req, res, next) => {
@@ -35,13 +38,15 @@ export const userPosts = async (req, res, next) => {
     const {id} = req.params
     const limit = 2;
     const startIndex = (Number(page)-1)*limit
+    try{
     const userposts = await Post.find({authur:id})
-    .catch(err => next(err))
     const pagposts = await Post.find({authur:id}).sort({_id:-1}).limit(limit).skip(startIndex)
-    .catch(err => next(err))
     const total = userposts.length 
     const totalP = Math.ceil(total/limit) 
     res.status(200).json({posts:pagposts,totalP:totalP})
+    }catch(err){
+        next(err)
+    }
 }
 export const getSearchPost = async (req, res, next) => {
     const {searchQ} = req.query
@@ -93,6 +98,7 @@ export const updatePost = async (req, res, next) => {
 export const likePost = async (req, res, next) => {
     const {id} = req.params
    const userId = req.user.id
+   try{
     if(!mongoose.Types.ObjectId.isValid(id))
         return res.status(404).send("Post not found")
     const post = await Post.findById(id)
@@ -104,6 +110,9 @@ export const likePost = async (req, res, next) => {
 
     const likedPost = await Post.findByIdAndUpdate(id, post, {new:true})
     res.json({likes:likedPost.likes})
+   }catch(err){
+    next(err)
+   }
 
 }
 
@@ -117,35 +126,37 @@ export const deletePost = async (req, res, next) => {
 
 export const commentPost = async (req, res, next) => {
     const {id} = req.params
-
+    try{
     const post = await Post.findById(id)
-
     post.comments.push({...req.body})
     const updatedPost = await Post.findByIdAndUpdate(id, post, {new:true})
-    .catch(err => next(err))
     const limit = 2
     const totalC = updatedPost.comments.length
     res.status(200).json({lastPage : Math.ceil(totalC/limit)})
+    }catch(err){
+        next(err)
+    }
 }
 
 export const updateComment = async (req, res, next) => {
     const {postId,cId} = req.params
     const {body} = req.body
-    const limit = 2
+    const limit = 2;
+    try{
     const post = await Post.findById(postId)
-    .catch(err => next(err))
     const updatedPost = await Post.findOneAndUpdate({_id:postId,"comments._id":cId},{$set:{"comments.$.body":body}}, {new: true})
-    .catch(err => next(err))
     const index = post.comments.findIndex(id => id.id == String(cId))
     const page = Math.ceil((index+1)/limit)
-    console.log(updatedPost.comments,req.body)
     res.status(200).json({page:page,msg:"Comment Updated"})
+    }catch(err){
+        next(err)
+    }
 } 
 
 export const likeComment = async (req, res, next) => {
     const {postId, cId} = req.params
     const userId = req.user.id
-
+try{
     const post = await Post.findById(postId)
     const comment = post.comments.findById(cId)
     const index = await comment.likes.filter(id => id !== String(userId))
@@ -157,6 +168,9 @@ export const likeComment = async (req, res, next) => {
         comment.likes = await comment.likes.filter(id => id !== String(userId))
 
     await Post.findByIdAndUpdate(id, comment, {new: true})
+}catch(err){
+    next(err)
+}
 
 }
 
@@ -164,6 +178,5 @@ export const deleteComment = async (req, res, next) => {
     const {postId,cId} = req.params
     const post = await Post.findOneAndUpdate({_id:postId},{$pull:{comments:{_id:cId}}},{new:true})
     .catch(err => next(err))
-    console.log(post)
     res.status(200).json("Comment Deleted")
 }
