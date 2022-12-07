@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import logo from '../assets/img/Deeziblog.png';
+import logo from '../assets/img/zigi1.png';
 import {Link, useNavigate} from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InputIcon from '@mui/icons-material/Input';
@@ -59,25 +59,25 @@ const Header = () => {
                         <Link to={`/profile/${currentUser.username}`}><img src={currentUser.profilepic} alt="" /></Link> 
                     </div>    
                     :
-                    <Link to={`/profile/${currentUser.username}`}><AccountCircleIcon className='account'/></Link>
+                    <Link to={`/profile/${currentUser.username}`}><AccountCircleIcon  className='account'/></Link>
                         }
                     </Tooltip>
                     <Tooltip title="Logout">
-                   <LogoutIcon className='account' onClick={logout} />
+                   <LogoutIcon color='#0e60b5' className='account' onClick={logout} />
                     </Tooltip>
                     <Tooltip title="create">
                     <Link to="/create">
-                        <CreateIcon className='write' /></Link>
+                        <CreateIcon color='#0e60b5' className='write' /></Link>
                     </Tooltip>
                     
                     </>
                     : 
                     <>
                     <Tooltip title={`Login`}>
-                   <Link to="/login"><LoginIcon className='account'/></Link>
+                   <Link to="/login"><LoginIcon color='#0e60b5' className='account'/></Link>
                     </Tooltip>
                     <Tooltip title="Register">
-                   <Link to="/register"><InputIcon className='account' /></Link>
+                   <Link to="/register"><InputIcon color='#0e60b5' className='account' /></Link>
                     </Tooltip>
                     </>
                     }
