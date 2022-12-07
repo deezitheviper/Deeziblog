@@ -9,7 +9,7 @@ const postSchema = new Schema({
         unique: true
     },
     authur: {
-        type:String,
+       type: Schema.Types.ObjectId, ref:'user',
         required: true,
     },
     img:{
@@ -33,20 +33,11 @@ const postSchema = new Schema({
         default: []
     },
     comments: [
-        { authur: {
-            type:String,
-            required: true,
-        },
-        body: {
-            type:String,
-            required: true,
-        },
-            date: { type: Date, default: Date.now},
-         likes:{
-            type: [String],
-            default: []
-        }
-        }],
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'comment'
+            }
+        ],
     date: { type: Date, default: Date.now, required:true },
     hidden: Boolean,
     meta: {

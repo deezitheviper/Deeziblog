@@ -29,7 +29,6 @@ const [data, setData] = useState({
     likes: [],
     totalP: 1,
     comments:[],
-    avatar: ""
 })
 const {currentUser} = useContext(AuthContext)
 const params = useParams();
@@ -68,8 +67,8 @@ const getPost = async () => {
     setLoading(true)
     const res = await instance.get(`/posts/${slug}/?page=${page}`)
     .catch(err => console.log(err))
-    const {post,likes,comments,totalPages,avatar} = res.data
-    setData(e => ({...data, post:post,comments:comments,likes:likes,totalP:totalPages, avatar:avatar }) )
+    const {post,totalPages} = res.data
+    setData(e => ({...data, post:post,comments:post.comments,likes:post.likes,totalP:totalPages, avatar:post.authur.avatar }) )
     setLoading(false)
 
 }
@@ -96,15 +95,15 @@ if(update) {
                 <div className='profile'>
             
             
-               <img src={avatar} alt="account" />
+               <img src={post?.authur?.profilepic} alt="account" />
 
                <div className='info'>
 
-                   <span><Link to={`/Profile/${post?.authur}`}>{post?.authur}</Link></span>    
+                   <span><Link to={`/Profile/${post?.authur?.username}`}>{post?.authur?.username}</Link></span>    
                    <p>Posted {moment(post?.date).fromNow()}</p>
                    
                </div> 
-             {currentUser?.username === post?.authur && (
+             {currentUser?.username === post?.authur?.username && (
                <div className='edit'>
                <span className='editIcon'><Link to={'/create'} state={post}><CreateIcon/></Link></span>
                <span className='deleteIcon'><DeleteIcon onClick={handleDelete}/></span>

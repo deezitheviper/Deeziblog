@@ -18,6 +18,7 @@ const userSchema = new Schema({
 },
 profilepic:{
     type:String,
+    default:'https://res.cloudinary.com/deezi/image/upload/v1662340110/upload/u77bphsn8u9s03mxutll.jpg'
 },
 
 password:{

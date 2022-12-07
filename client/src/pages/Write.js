@@ -105,7 +105,7 @@ const Create = () => {
             try{
            const res = await instance.post('/posts/createPost',{...inputs,
             body:content,
-            authur: currentUser.username,
+            authur: currentUser._id,
             slug:slugify(inputs.title)
         })
         const {slug, cat} = res.data

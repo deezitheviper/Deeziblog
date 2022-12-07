@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import Post from '../models/Post.js';
 import User from '../models/User.js';
-
+import Comment from '../models/Comment.js';
 
 
 export const getPosts = async (req, res, next) => {
@@ -50,28 +50,34 @@ export const getSearchPost = async (req, res, next) => {
     .catch(err => next(err))
     res.status(200).json(posts)
 }
-
+ 
 export const getPost = async (req, res, next) => {
     const {page} = req.query
-    const post = await Post.findOne({slug:req.params.id})
-    .catch(err => next(err))
-    const authur = await User.findOne({username:post.authur})
     const limit = 2;
     const startIndex = (Number(page)-1) * limit;
-    const total = await post.comments.length
-    const postC = await Post.findOne({slug:req.params.id}, {comments:{$slice:[startIndex,limit]}})
-    const comments = postC.comments
-    res.status(200).json({post:post,avatar:authur.profilepic,likes:post.likes,comments:comments,totalPages:Math.ceil(total/limit)})
-
+    try{
+    const post = await Post.findOne({slug:req.params.id}).populate({path:'authur',select:['username','profilepic','_id']}).populate({path: 'comments',options: {
+        $slice: [startIndex,limit]
+     }, populate:{'path': 'authur',model:'user'}})
+   
+    const total = post.comments.length
+    res.status(200).json({post:post,totalPages:Math.ceil(total/limit)})
+    }catch(err){
+        next(err)
+    }
 }
 
 
 export const createPost = async (req, res, next) => {
-    const post = new Post(req.body)
+
+    try{
+        const post = new Post(req.body)
     const savedPost =  await post.save()
-    .catch(err => next(err))
     const {cat, slug} = savedPost
     res.status(200).json({cat:cat, slug:slug})
+    }catch(err){
+        next(err)
+    }
 }
 
 export const updatePost = async (req, res, next) => {
