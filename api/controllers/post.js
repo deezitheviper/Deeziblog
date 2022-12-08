@@ -6,7 +6,7 @@ import Comment from '../models/Comment.js';
 
 export const getPosts = async (req, res, next) => {
     const {page} = req.query
-    const limit = 2;
+    const limit = 4;
     const startIndex = (Number(page)-1)*limit;
     const total = await Post.countDocuments({});
     const posts = await Post.find().sort({createdAt: 'desc'}).limit(limit).skip(startIndex)
@@ -36,7 +36,7 @@ export const userPosts = async (req, res, next) => {
     
     const {page} = req.query
     const {id} = req.params
-    const limit = 2;
+    const limit = 4;
     const startIndex = (Number(page)-1)*limit
     try{
     const userposts = await Post.find({authur:id})
