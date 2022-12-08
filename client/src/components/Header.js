@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import logo from '../assets/img/zigi1.png';
+import logo from '../assets/img/deezi.png';
 import {Link, useNavigate} from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import InputIcon from '@mui/icons-material/Input';
