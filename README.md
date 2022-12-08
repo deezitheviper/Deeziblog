@@ -2,7 +2,7 @@
 
 A full Fledge full stack custom blog using the MERN stack.
 With the following Features
-
+```
 CRUD functionality on Articles
 CRUD functionality on Users
 CRUD functionality on Comments
@@ -15,7 +15,7 @@ Pagination on Comments
 
 User Profile Page
 User Avatar upload
+```
 
-
-#Visual
+# Visual
 ![Screengrab](/home.png) 
