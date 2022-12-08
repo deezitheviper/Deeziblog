@@ -141,7 +141,7 @@ form{
         }
         .logo{
             padding-top: 10px;
-            height: 80px;
+            height: 50px;
         }
 
        
@@ -164,7 +164,7 @@ form{
         border: 0;
         height: 40px;
         width: 40px;
-        color: #064b84;
+        color: rgb(51 150 205);
         padding: 0.5rem;
         border-radius: 50%;
         cursor: pointer;
@@ -210,7 +210,7 @@ form{
          // makes menu span full height and width
           width: 100%;
           height: fit-content;
-          background-color: rgb(10 57 83);
+          background-color: rgb(51 150 205);
           border-top: 1px solid $dark-coral;
           text-align: center;
           padding: 10px;
@@ -902,7 +902,7 @@ form{
             }
             .logo{
                 padding-top: 10px;
-                height: 100px;
+                height: 60px;
             }
     
             .write{
