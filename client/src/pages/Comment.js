@@ -18,7 +18,8 @@ import Avatar from '../components/Avatar';
 
 
 const Comment = ({data}) => {
-    const {comments,post, totalP, page} = data;
+    const {post, totalP, page} = data;
+    const {comments} = post;
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState('');
     const {currentUser} = useContext(AuthContext)
@@ -27,11 +28,8 @@ const Comment = ({data}) => {
         cId:""
     })
 
-    const {edit, cId} = edata;
-
-   
+    const {edit, cId} = edata;   
     const cEdit = useRef(null)
-
 
     const handleChange = e => {
     setValue(e.target.value)
@@ -43,7 +41,7 @@ const Comment = ({data}) => {
             setLoading(true)
             try {
                 const res = await instance.post(`posts/comment/${post._id}`,{
-                authur:currentUser.username,
+                authur:currentUser._id,
                 body:value
             })
             setValue("")

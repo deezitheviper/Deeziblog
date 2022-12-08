@@ -26,15 +26,17 @@ const page = Number(query.get('page')) || 1
 const update = query.get('update')
 const [data, setData] = useState({
     post:{},
-    likes: [],
     totalP: 1,
     comments:[],
 })
+
+const [likes, setLikes] = useState([]);
 const {currentUser} = useContext(AuthContext)
 const params = useParams();
 const {slug} = params;
 const [loading, setLoading] = useState(false)
-const {post,totalP,comments,likes, avatar} = data;
+const [liking, setLiking] = useState(false)
+const {post,totalP} = data;
 const csection = useRef(null);
 
 
@@ -53,9 +55,16 @@ const handleDelete = async () => {
 
 const likePost = async () => {
     if(currentUser){
+        setLiking(true);
+        try{
         const res = await instance.patch(`posts/like/${post._id}`)
-        .catch(err => console.log(err))
-        setData(e => ({...data, likes:res.data.data.likes}))
+        setLikes(res.data)
+        setLiking(false);
+        }catch(err){
+        console.log(err)
+        setLiking(false);
+        }
+       
     }
 }
 
@@ -68,7 +77,8 @@ const getPost = async () => {
     const res = await instance.get(`/posts/${slug}/?page=${page}`)
     .catch(err => console.log(err))
     const {post,totalPages} = res.data
-    setData(e => ({...data, post:post,comments:post.comments,likes:post.likes,totalP:totalPages, avatar:post.authur.avatar }) )
+    setData(e => ({...data, post:post,comments:post.comments,totalP:totalPages }))
+    setLikes(post.likes)
     setLoading(false)
 
 }
@@ -117,15 +127,25 @@ if(update) {
                 </div>
                 <Divider  />
                 <span >
+
                 <Stack direction="row" alignItems="center" spacing={2}>
-                <FavoriteBorderIcon onClick={likePost} className="i-like" fontSize='large'/>
-                 <p>{likes.length}</p>
+                                
+            {liking?
+   <Box sx={{ display: 'flex' }}>
+   <CircularProgress />
+ </Box>
+ :
+ <>
+                <FavoriteBorderIcon onClick={likePost} className="i-like" fontSize='large' style={{cursor:'pointer'}}/>
+                 <p>{likes?.length}</p>
+                 </>
+            }
                 </Stack>
                 </span>
             
            Comments
            <div ref={csection}>
-   <Comment data={{post,comments,totalP,page}}/>
+   <Comment data={{post,totalP,page}}/>
    </div>
              </div>
            <div>
