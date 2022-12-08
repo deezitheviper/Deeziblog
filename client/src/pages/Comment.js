@@ -17,9 +17,8 @@ import {toast} from 'react-toastify';
 import Avatar from '../components/Avatar';
 
 
-const Comment = ({data}) => {
-    const {post, totalP, page} = data;
-    const {comments} = post;
+const Comment = ({data,page}) => {
+    const {post,comments, totalP} = data;
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState('');
     const {currentUser} = useContext(AuthContext)
@@ -98,10 +97,9 @@ const Comment = ({data}) => {
   <div className='comment' key={comment._id}>
 <div className='c-header'>
   <div className='profile'> 
-    <Avatar data={comment.authur}/> 
+  <img src={comment.authur.profilepic} alt=""/>
     <div className='info'>
-        <span>{comment.authur}</span>    
-        
+        <span>{comment.authur.username}</span>    
      </div>
     
   </div>
@@ -135,9 +133,7 @@ const Comment = ({data}) => {
           onChange={handleChange}
         />
         {loading? 
-                  <Box sx={{ display: 'flex' }}>
-                  <CircularProgress />
-                </Box>
+              <button onClick={e => e.preventDefault()}>....</button>
                 :
                 <>
                 {edit?

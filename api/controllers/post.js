@@ -63,7 +63,7 @@ export const getPost = async (req, res, next) => {
     try{
     const post = await Post.findOne({slug:req.params.id}).populate({path:'authur',select:['username','profilepic','_id']}).populate({path: 'comments',options: {
         $slice: [startIndex,limit]
-     }, populate:{'path': 'authur',model:'user'}})
+     }, populate:{'path': 'authur',select:['username','profilepic','_id']}})
    
     const total = post.comments.length
     res.status(200).json({post:post,totalPages:Math.ceil(total/limit)})
@@ -124,10 +124,12 @@ export const deletePost = async (req, res, next) => {
 
 export const commentPost = async (req, res, next) => {
     const {id} = req.params
-    try{
+    try{ 
     const post = await Post.findById(id)
-    post.comments.push({...req.body})
+    const comment = new Comment(req.body)
+    post.comments.push(comment)
     const updatedPost = await Post.findByIdAndUpdate(id, post, {new:true})
+    await comment.save()
     const limit = 2
     const totalC = updatedPost.comments.length
     res.status(200).json({lastPage : Math.ceil(totalC/limit)})

@@ -92,7 +92,7 @@ if(update) {
         <div className='article'>
             
             {loading?
-   <Box sx={{ display: 'flex' }}>
+   <Box sx={{ display: 'flex',justifyContent:'center',alignItems:'center' }}>
    <CircularProgress />
  </Box>
  :
@@ -145,7 +145,8 @@ if(update) {
             
            Comments
            <div ref={csection}>
-   <Comment data={{post,totalP,page}}/>
+           
+   <Comment data={data} page={page}/>
    </div>
              </div>
            <div>
