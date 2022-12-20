@@ -38,7 +38,7 @@ const Login = () => {
             {err && <p className='danger'>{err}</p>}
                 <input type='text' placeholder="username or email" name="id" onChange={handleChange} />
                 <input type="password" placeholder="password" name="password" onChange={handleChange}/>
-               {loading?
+               {!loading?
                 <button onClick={handleSubmit}> Login </button>
                 :
                 <Box sx={{ display: 'flex',justifyContent:'center', alignItems:'center' }}>
