@@ -35,7 +35,7 @@ const connect = async  () => {
     console.log(`DB connected on database named ${connection.connection.name}`)
 }
 
-
+mongoose.set('strictQuery', true);
 mongoose.connection.on('connected', () => {
     console.log("Connected")
   }); 

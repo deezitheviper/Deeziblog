@@ -27,10 +27,15 @@ const Home = () => {
     useEffect(()=> {
         const fetchPost = async () => {
             setLoading(true)
+            try{
             const res = await instance.get('/posts')
-            .catch(err => console.log(err))
             setData(prev => ({...prev,posts:res.data.data,totalPages:res.data.totalPages}))
             setLoading(false)
+            }
+            catch(err){
+                console.log(err)
+                setLoading(false)
+            }
         }
         fetchPost();
     },[])
