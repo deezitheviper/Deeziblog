@@ -11,9 +11,13 @@ const Sidebar = ({post}) => {
     useEffect(() => {
 
         const getCatPost = async () => {
+            try{
         const res = await instance.get(`/posts/cat/${post.cat}`)
-        .catch(err => console.log(err.response.data))
         setPosts(res.data.similarPosts)
+            }
+            catch(err){
+                console.log(err)
+            }
         }
         getCatPost();
     },[post.cat])
@@ -29,13 +33,12 @@ const Sidebar = ({post}) => {
  <div className='content' key={post._id}>
  <div className='l-content'>
   <div className='profile'> 
-  {currentUser?.profilepic?
-               <img src='https://www.fillmurray.com/640/360' alt="account" />
-               :
-               <img src={avatar} alt="account" /> 
-  }
+
+               <img src={post.authur.profilepic} alt="account" /> 
+
     <div className='info'>
-        <span>{post.authur}</span>    
+       
+        <span>{post.authur.username}</span>    
      </div>
   </div>
   <Link to={`/${post.cat}/${post.slug}`}>

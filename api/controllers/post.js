@@ -20,13 +20,13 @@ export const getPosts = async (req, res, next) => {
 export const getCatPost = async (req, res, next) => {
     const {page} = req.query
     try{
-    const similarPosts = await Post.find({cat:req.params.cat}).sort({_id:-1})
+    const similarPosts = await Post.find({cat:req.params.cat}).sort({_id:-1}).populate({path:'authur',select:['username','profilepic','_id']})
     const limit = 2;
     const startIndex = (Number(page)-1)*limit
-    const posts = await Post.find({cat:req.params.cat}).sort({_id:-1}).limit(limit).skip(startIndex)
-    const total = posts.length
-    const totalP = Math.ceil(total/limit)
-    res.status(200).json({posts:posts,similarPosts:similarPosts,total:totalP})
+    //const posts = await Post.find({cat:req.params.cat}).sort({_id:-1}).limit(limit).skip(startIndex).populate({path:'authur',select:['username','profilepic','_id']})
+    //const total = posts.length
+    //const totalP = Math.ceil(total/limit)
+    res.status(200).json({similarPosts:similarPosts})
     }catch(err){
         next(err)
     }
