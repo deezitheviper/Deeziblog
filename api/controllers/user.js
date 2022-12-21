@@ -6,7 +6,7 @@ export const getUser = async (req, res, next) => {
     const {id} = req.params 
     try {
         const user = await User.findOne({"username":id})
-        const {password, ...otherDetails} = user;
+        const {password, ...otherDetails} = user._doc;
         res.status(200).json(otherDetails)
     }catch(err) {
          next(err)
@@ -18,7 +18,7 @@ export const userAvatar = async (req, res, next) => {
     const user = await User.findOne({"username":id})
     .catch(err => next(err))
     const {profilepic, ...otherDetails} = user
-    res.status(200).json(profilepic)
+    res.status(200).json(profilepic) 
 }
 export const updateUser = async (req, res, next) => {
     const {id} = req.params;

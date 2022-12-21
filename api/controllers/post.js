@@ -39,9 +39,8 @@ export const userPosts = async (req, res, next) => {
     const limit = 4;
     const startIndex = (Number(page)-1)*limit
     try{
-    const userposts = await Post.find({authur:id})
-    const pagposts = await Post.find({authur:id}).sort({_id:-1}).limit(limit).skip(startIndex)
-    const total = userposts.length 
+    const total = await Post.find({authur:id}).countDocuments()
+    const pagposts = await Post.find({authur:id}).sort({_id:-1}).limit(limit).skip(startIndex).populate({path:'authur',select:['username','profilepic','_id']})
     const totalP = Math.ceil(total/limit) 
     res.status(200).json({posts:pagposts,totalP:totalP})
     }catch(err){

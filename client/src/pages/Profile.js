@@ -154,7 +154,7 @@ const Profile = () => {
             setLoading(true)
         try{
             
-            const res = await instance.get(`posts/userposts/${authur}/?page=${page}`)
+            const res = await instance.get(`posts/userposts/${currentUser?._id}/?page=${page}`)
             const {posts, totalP} = res.data
             setData(data => ({...data,posts:posts,totalP:totalP}))
         }catch(err){
@@ -166,6 +166,7 @@ const Profile = () => {
     const getUser = async () => {
         setInfoLoad(true)
         const res = await instance.get(`user/${authur}`)
+       
         const {username, email,createdAt, profilepic} = res.data;
         setData(prev => ({...prev, username:username,email:email,profilepic:profilepic, joined:createdAt}))
         setInfoLoad(false)
@@ -270,9 +271,9 @@ const Profile = () => {
                
                 <div className='l-content'>
                 <div className='profile'> 
-                <Avatar data={post.authur}/>
+                <img src={post.authur.profilepic} alt="" />
     <div className='info'>
-        <span>{post.authur}</span>    
+        <span>{post.authur.username}</span>    
      </div>
   </div>
   <Link to={`/${post.cat}/${post.slug}`}>
