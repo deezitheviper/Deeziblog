@@ -27,11 +27,13 @@ const Cat = () => {
     useEffect(()=> {
         const fetchArticle = async () => {
             setLoading(true)
-            
+            try{
                 const res = await instance.get(`/posts/cat/${cat}?page=${page}`)
-                .catch(err => console.log(err))
                 const {posts, totalP} = res.data;
                 setData(prev => ({...prev,posts:posts,totalPages:totalP}))
+            }catch (e) {
+                console.log(e)
+            }
         
             setLoading(false)
         }
