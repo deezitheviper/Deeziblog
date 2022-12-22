@@ -7,11 +7,15 @@ import authRouter from './routes/Auth.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import multer from 'multer';
+import path from 'path';
 
+const __dirname = path.resolve();
 
 dotenv.config()
 
 const app = express();
+
+
 app.use(express.json({ limit: "50mb" }));
 if(process.env.NODE_ENV === 'dev'){
     app.use(cors({
@@ -45,10 +49,14 @@ mongoose.connection.on('disconnected', () => {
   });
 
 
+
+//serve frontend
+app.use(express.static(path.join(__dirname, './build')));
+
+
+
+
 //Routes
-app.get('/', (req, res)=>{
-    res.send("Hello")
-})
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
@@ -61,6 +69,13 @@ app.use((err,req,res,next) => {
       message:errMessage,
       stack:err.stack
   })
+})
+app.get('*', function(_, res) {
+  res.sendFile(path.join(__dirname,'./build/index.html'),
+  function(err){
+    res.status(500).send(err);
+  }
+  );
 })
 
 const storage = multer.diskStorage({
