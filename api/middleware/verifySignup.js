@@ -18,5 +18,4 @@ export const checkDuplicate =  (req, res, next) => {
         }
     })
 
-    return next();
 }

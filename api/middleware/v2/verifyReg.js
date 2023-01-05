@@ -8,9 +8,7 @@ export const checkDuplicate =  (req, res, next) => {
     const q = "SELECT * FROM users WHERE email = ? OR username = ?"
 
     db.query(q,[username.toLowerCase(),email.toLowerCase()], (err, data) => {
-        if(err) return res.json(err);
-        if(data.length) next(createError(500, "Failed! User already exist!"))
+        if(err) return next(err);
+        if(data.length) return next(createError(500, "Failed! User already exist!"))
     })
-
-    return next();
 }
