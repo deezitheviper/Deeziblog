@@ -2,10 +2,19 @@ import bcrypt from "bcryptjs";
 import { createError } from '../../config/error.js';
 import jwt from "jsonwebtoken";
 import { db } from '../../models/v2/db.js';
-
+import { validationResult } from 'express-validator';
 
 export const registerController = async (req, res, next) => {
     const {username, email, password} = req.body;
+    const errors = validationResult(req)
+ 
+    if (!errors.isEmpty()) {
+        const firstError = errors.array().map(error => error.msg)[0]
+        return res.status(422).json({
+            error: firstError
+        })
+    }
+
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
    
