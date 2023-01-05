@@ -179,11 +179,11 @@ const Create = () => {
                     <label htmlFor="Python">Python</label>
                     </div>
                     <div className='cat'>
-                    <input type="radio" name="cat" checked={inputs.cat === "Offensive Security"} value="Offensive Security" onChange={handleChange}/>
+                    <input type="radio" name="cat" checked={inputs.cat === "OffensiveSec"} value="OffensiveSec" onChange={handleChange}/>
                     <label htmlFor="Offensive Security">Offensive Security</label>
                     </div>
                     <div className='cat'>
-                    <input type="radio" name="cat" checked={inputs.cat === "Machine Learning"} value="Machine Learning" onChange={handleChange}/>
+                    <input type="radio" name="cat" checked={inputs.cat === "ML"} value="ML" onChange={handleChange}/>
                     <label htmlFor="Machine Learning">Machine Learning</label>
                     </div>
                 </div>
