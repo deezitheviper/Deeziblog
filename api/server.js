@@ -10,7 +10,9 @@ import cors from 'cors';
 import multer from 'multer';
 import path from 'path';
 import { db } from "./models/v2/db.js";
-import { validateRegister } from "./middleware/validator.js";
+import v2Post from './routes/v2/Post.js';
+
+
 
 const __dirname = path.resolve();
 
@@ -75,6 +77,8 @@ app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
 
 app.use('/api/v2/auth',v2Auth)
+app.use('/api/v2/post',v2Post)
+
 app.use((err,req,res,next) => {
   const errStatus = err.status || 500
   const errMessage = err.message || "Unable to complete request"
