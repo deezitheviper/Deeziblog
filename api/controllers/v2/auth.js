@@ -35,6 +35,15 @@ export const registerController = async (req, res, next) => {
 
 export const loginController = async (req, res, next) => {
     const {id, password} = req.body;
+    const errors = validationResult(req)
+ 
+    if (!errors.isEmpty()) {
+        const firstError = errors.array().map(error => error.msg)[0]
+        return res.status(422).json({
+            error: firstError
+        })
+    }
+    
     
     const q = "SELECT * FROM users WHERE username = ? OR email = ?"
 

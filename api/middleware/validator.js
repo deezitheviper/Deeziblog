@@ -17,7 +17,7 @@ export const validateRegister = [
 ]
 
 export const validateLogin = [
-    check('email').isEmail().withMessage('Must be a valid email address'),
+    check('id', 'username or email is required').not().isEmpty(),
     check('password', 'password is required').not().isEmpty()
         .isLength({
             min: 6
