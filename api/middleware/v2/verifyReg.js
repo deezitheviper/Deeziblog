@@ -10,5 +10,6 @@ export const checkDuplicate =  (req, res, next) => {
     db.query(q,[username.toLowerCase(),email.toLowerCase()], (err, data) => {
         if(err) return next(err);
         if(data.length) return next(createError(500, "Failed! User already exist!"))
+        if(!err) return next();
     })
 }

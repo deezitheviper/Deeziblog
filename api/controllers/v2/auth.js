@@ -34,21 +34,21 @@ export const registerController = async (req, res, next) => {
 }
 
 export const loginController = async (req, res, next) => {
-    try{
-    let user = null;
-    user =  await User.findOne({email:req.body.id.toLowerCase()});
-    if(!user) user =  await User.findOne({username:req.body.id.toLowerCase()});
-    if (!user) return next(createError(404, "This account does not exist"))
-    const passwordCorrect = bcrypt.compareSync(`${req.body.password}`,user.password);
-    if(!passwordCorrect) return next(createError(400, "Wrong Credentials"))
-    const token = jwt.sign({id:user._id, isAdmin:user.isAdmin}, process.env.SECRET_KEY)
-    const {password, ...otherDetails} = user._doc
-    res.cookie("accesstoken", token, {
-        httpOnly: true,
-    }).status(200).json({...otherDetails})
-}catch(err) {
-    next(err)
-}
+    const {id, password} = req.body;
+    
+    const q = "SELECT * FROM users WHERE username = ? OR email = ?"
+
+    db.query(q, [id,id], (err, user) => {
+        if(err) return next(err);
+        if(user.length === 0) return next(createError(404, "User not found"))
+        const passwordCorrect = bcrypt.compareSync(`${password}`,user[0].password);
+        if(!passwordCorrect) return next(createError(400, "Wrong Credentials"))
+        const token = jwt.sign({id:user.id, isAdmin:user.isAdmin}, process.env.SECRET_KEY)
+        const {password, ...otherDetails} = user[0]
+        res.cookie("accesstoken", token, {
+            httpOnly: true,
+        }).status(200).json({...otherDetails})
+    })
 }
 
 export const logout = (req, res) => {

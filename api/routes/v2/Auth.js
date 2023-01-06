@@ -6,7 +6,7 @@ import { validateRegister } from "../../middleware/validator.js";
 
 
 
-router.post('/register',validateRegister, registerController)
+router.post('/register',validateRegister,checkDuplicate, registerController)
 
 
 export default router
