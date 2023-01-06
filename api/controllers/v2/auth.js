@@ -43,14 +43,14 @@ export const loginController = async (req, res, next) => {
             error: firstError
         })
     }
-    
+
     
     const q = "SELECT * FROM users WHERE username = ? OR email = ?"
 
     db.query(q, [id,id], (err, user) => {
         if(err) return next(err);
         if(user.length === 0) return next(createError(404, "User not found"))
-        const passwordCorrect = bcrypt.compareSync(`${password}`,user[0].password);
+        const passwordCorrect = bcrypt.compareSync(`${req.body.password}`,user[0].password);
         if(!passwordCorrect) return next(createError(400, "Wrong Credentials"))
         const token = jwt.sign({id:user.id, isAdmin:user.isAdmin}, process.env.SECRET_KEY)
         const {password, ...otherDetails} = user[0]

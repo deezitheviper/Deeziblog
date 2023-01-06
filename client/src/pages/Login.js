@@ -26,6 +26,7 @@ const Login = () => {
             await login(inputs)
             navigate("/")
         }catch(err){
+         
          setErr(err.response.data.message)
          setLoading(false)
         }
