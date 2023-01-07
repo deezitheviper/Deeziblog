@@ -28,17 +28,18 @@ export const getPost = async (req, res, next) => {
 
 
 export const getPosts =  (req, res, next) => {
+
     const q = "SELECT * FROM posts ORDER BY date DESC LIMIT ? OFFSET ?";
     const {page} = req.query
     const limit = 4;
     const startIndex = (Number(page)-1)*limit;
-
+    db.query("SELECT * FROM posts", (err, posts) => {
+        const total = posts.length;
     db.query(q,[limit, startIndex], (err, data) => {
         if(err) return next(err);
-        const total = data.length();
         res.status(200).json({data, currentPage:Number(page), totalPages: Math.ceil(total/limit)})
-    
     })
+})
 } 
 
 
