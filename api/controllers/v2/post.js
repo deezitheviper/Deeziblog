@@ -69,26 +69,27 @@ export const createPost = async (req, res, next) => {
         folder: 'mernblog',
       };
   
-      try {
+    try {
         const result = await cloudinary.uploader.upload(req.file.path, options);
-    const q = "INSERT INTO posts (`title`, `img`,`slug`,`body`,`cat`,`authur`,`date`) VALUES (?)"
-    const values = [
-        title,
-        result.secure_url,
-        slug,
-        body,
-        cat,
-        authur,
-        moment(Date.now()).format('YYYY-MM-DD HH')
-    ]
+        const q = "INSERT INTO posts (`title`, `img`,`slug`,`body`,`cat`,`authur`,`date`) VALUES (?)"
+        const values = [
+            title,
+            result.secure_url,
+            slug,
+            body,
+            cat,
+            authur,
+            moment(Date.now()).format('YYYY-MM-DD HH')
+        ]
 
-    console.log(values);
-    db.query(q,[values],(err,data) => {
-        console.log(err, data)
+ db.query(q,[values],(err,data) => {
         if (err) return next(err);
-        const {cat, slug} = data[0]
-        console.log(data[0])
-        return res.status(200).json({cat:cat, slug:slug})
+        db.query('SELECT * FROM posts WHERE id = ?', data.insertId,(err,post) => {
+            if(err) return next(err);
+            const {cat, slug} = post[0];
+            return res.status(200).json({cat:cat, slug:slug})
+        })
+    
     })
 
 } catch (error) {
