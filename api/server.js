@@ -70,14 +70,15 @@ app.use(express.static(path.join(__dirname, './build')));
 
 
 
+const upload = multer({ dest: 'uploads/' })
 
 //Routes
 app.use('/api/user', userRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/posts', postRouter)
-
+  
 app.use('/api/v2/auth',v2Auth)
-app.use('/api/v2/post',v2Post)
+app.use('/api/v2/posts',upload.single('img'), v2Post)
 
 app.use((err,req,res,next) => {
   const errStatus = err.status || 500
@@ -106,7 +107,7 @@ const storage = multer.diskStorage({
     }
   })
   
-const upload = multer({ storage})
+//const upload = multer({ storage})
 app.post('/api/upload', upload.single('img'), function (req, res) {
     const file = req.file.filename
     res.status(200).json(file)

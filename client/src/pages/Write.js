@@ -13,7 +13,7 @@ const Create = () => {
     const state = useLocation().state
     const [err, setErr] = useState({})
     const {currentUser} = useContext(AuthContext)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState()
     const [content, setContent] = useState( state?.body || "")
     const [file, setFile] = useState()
     const navigate = useNavigate();
@@ -61,60 +61,82 @@ const Create = () => {
 
     const upload = async () => {
         const formData = new FormData();
+        formData.append('title', inputs.title)
+        formData.append('body', inputs.body)
+        formData.append('cat', inputs.cat)
+        formData.append('authur', currentUser._id)
+        formData.append('slug', slugify(inputs.title))
         formData.append('img', inputs.img)
+        try {
         const res =  await instance.post('/upload',formData)
-        .catch(err => console.log(err.response.data))
-        return res.data
+        console.log(res)
+        }catch(err){
+            console.log(err.response.data)
+        }
     }
     const handleChange = e => {
         setInput(prev => ({...prev, [e.target.name]: e.target.value}))
     }
 
     const checkImage = (file) => {
+        
         const types = ['image/png', 'image/jpeg']
         let err = null;
         if(!file) return err = "File does not exist."
       
-        if(file.file.size > 1024 * 1024) // 1mb
+        if(file.size > 1024 * 1024) // 1mb
           err = "The largest image size is 1mb"
       
         if(!types.includes(file.type))
           err = "The image type is png / jpeg"
 
-        if(!err) setInput({ ...inputs, img: file.base64 })
+        if(!err) setInput({ ...inputs, img: file })
         return  toast.error(err);
     }      
     const handlePublish = async (e) => {
         e.preventDefault()
         if(checkForm()){
+            
       
         if (state){
             setLoading(true)
+            const formData = new FormData();
+            formData.append('title', inputs.title)
+            formData.append('body', content)
+            formData.append('cat', inputs.cat)
+            formData.append('authur', currentUser.id)
+            formData.append('slug', slugify(inputs.title))
+            formData.append('img', inputs.img)
             try{
-            const res = await instance.put(`/posts/${state.slug}`,{...inputs,
-                body:content,
-                slug:slugify(inputs.title)})
-                const {slug, cat} = res.data
+            const res = await instance.put(`/posts/${state.slug}`,formData)
+            const {slug, cat} = res.data
             navigate(`/${cat}/${slug}/`)
-            }catch(err) {console.log(err)}
+            }catch(err) {
+                console.log(err)
+                setLoading(false)
+            }
             
            
         }
         else{
             setLoading(true)
+            const formData = new FormData();
+            formData.append('title', inputs.title)
+            formData.append('body', content)
+            formData.append('cat', inputs.cat)
+            formData.append('authur', currentUser.id)
+            formData.append('slug', slugify(inputs.title))
+            formData.append('img', inputs.img)
             try{
-           const res = await instance.post('/posts/createPost',{...inputs,
-            body:content,
-            authur: currentUser._id,
-            slug:slugify(inputs.title)
-        })
-        const {slug, cat} = res.data
-        navigate(`/${cat}/${slug}/`)
+            const res = await instance.post('/posts/createPost',formData)
+            const {slug, cat} = res.data
+            navigate(`/${cat}/${slug}/`)
      }catch(err) {
+        setLoading(false)
         console.log(err.response.data)
      } 
     }
-    setLoading(false)
+
 }else{
     checkForm()
 }
@@ -144,19 +166,21 @@ const Create = () => {
                    <br/>
                     <label>Upload Image</label>
                  <br/>
-                 <FileBase
+                {/* <FileBase
         type="file"
         multiple={false}
         onDone={file => checkImage(file) //setInput({ ...inputs, img: base64 })
         }
-      />
+      />*/} 
+       <input type="file" onChange={e => checkImage(e.target.files[0])} />
+       
                     <br/>
                     {err["img"] && <p className='danger'>{err["img"]}</p>}
                     <br/>
 
                     <div className='buttons'>
                         <button >Save as Draft</button>
-                        {loading?
+                        {loading === true?
                          <Box sx={{ display: 'flex' }}>
                          <CircularProgress />
                        </Box>
