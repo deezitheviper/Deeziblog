@@ -18,10 +18,11 @@ export const getPost = async (req, res, next) => {
     const {page} = req.query
     const limit = 2;
     const startIndex = (Number(page)-1) * limit;
-    const q = "SELECT `username`,`profilepic`, `title`, `desc`, `img`, `cat`, `date`, FROM `users` u JOIN posts p ON u.id === p.authur WHERE p.slug = ?"
+    const q = "SELECT `username`, `profilepic`,`c.body`,`c`,`title`, `img`, `cat`, `date`, `slug` FROM `users` u JOIN posts p JOIN comments c ON u.id = p.authur WHERE p.slug = ?";
 
     db.query(q,[req.params.id], (err, data) => {
         if(err) return next(err);
+        const post = data[0];
         return res.status(200).json({post:post,totalPages:Math.ceil(total/limit)})
     })
 }
@@ -29,17 +30,15 @@ export const getPost = async (req, res, next) => {
 
 export const getPosts =  (req, res, next) => {
 
-    const q = "SELECT * FROM posts ORDER BY date DESC LIMIT ? OFFSET ?";
+    const q = "SELECT *  (SELECT COUNT(*) FROM posts AS total),  FROM posts ORDER BY date DESC LIMIT ? OFFSET ?";
     const {page} = req.query
     const limit = 4;
     const startIndex = (Number(page)-1)*limit;
-    db.query("SELECT * FROM posts", (err, posts) => {
-        const total = posts.length;
     db.query(q,[limit, startIndex], (err, data) => {
+        console.log(err,data)
         if(err) return next(err);
-        res.status(200).json({data, currentPage:Number(page), totalPages: Math.ceil(total/limit)})
+        //res.status(200).json({data, currentPage:Number(page), totalPages: Math.ceil(total/limit)})
     })
-})
 } 
 
 
