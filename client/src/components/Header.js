@@ -30,7 +30,7 @@ const Header = () => {
         }
     }
     const handleKeyPress = (e) => {
-        if(e.keyCode == 13)
+        if(e.keyCode === 13)
             searchPost()
     }
 

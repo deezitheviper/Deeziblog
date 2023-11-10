@@ -71,7 +71,7 @@ export const createPost = async (req, res, next) => {
   
     try {
         const result = await cloudinary.uploader.upload(req.file.path, options);
-        const q = "INSERT INTO posts (`title`, `img`,`slug`,`body`,`cat`,`authur`,`date`) VALUES (?)"
+        const q = "INSERT INTO posts (`title`, `img`,`slug`,`body`,`cat`,`authur`,`date`) VALUES (?,?,?,?,?,?,?)"
         const values = [
             title,
             result.secure_url,

@@ -5,14 +5,19 @@ import Comment from '../models/Comment.js';
 
 
 export const getPosts = async (req, res, next) => {
+    try{
     const {page} = req.query
     const limit = 4;
     const startIndex = (Number(page)-1)*limit;
     const total = await Post.countDocuments({});
     const posts = await Post.find().sort({createdAt: 'desc'}).limit(limit).skip(startIndex)
+    res.status(200).json({posts, currentPage:Number(page), totalPages: Math.ceil(total/limit)})    
+}
+    catch(err) {
+         next(err)
+    }
 
-    .catch(err => next(err))
-    res.status(200).json({data:posts, currentPage:Number(page), totalPages: Math.ceil(total/limit)})
+   
 } 
 
 

@@ -21,15 +21,17 @@ dotenv.config()
 const app = express();
 
 
-app.use(express.json({ limit: "50mb" }));
+
+
+app.use(cookieParser())
+const allowedOrigins =['http://localhost:5173','http://localhost:5175', 'http://localhost:3000']
+app.use(express.json({limit:'50mb'}));
 if(process.env.NODE_ENV === 'dev'){
     app.use(cors({
         credentials: true,
-        origin:process.env.CLIENT_URL
+        origin:allowedOrigins
     }))
 }
-
-app.use(cookieParser())
 
 
 
@@ -81,7 +83,7 @@ app.use('/api/v2/auth',v2Auth)
 app.use('/api/v2/posts',upload.single('img'), v2Post)
 
 app.use((err,req,res,next) => {
-  const errStatus = err.status || 500
+  const errStatus = err.status || 500 
   const errMessage = err.message || "Unable to complete request"
   return res.status(errStatus).json({
       success:false,
@@ -118,7 +120,7 @@ app.post('/api/upload', upload.single('img'), function (req, res) {
 
 
 app.listen(5000,() => {
-    //connect()
-    connectMsql()
+    connect()
+    //connectMsql()
     console.log("Listening on port 5000")
 })
