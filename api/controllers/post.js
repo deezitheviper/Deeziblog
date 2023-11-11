@@ -9,7 +9,8 @@ export const getPosts = async (req, res, next) => {
     const {page} = req.query
     const limit = 4;
     const startIndex = (Number(page)-1)*limit;
-    const total = await Post.countDocuments({});
+    const total = await Post.countDocuments({}); 
+    console.log(total)
     const posts = await Post.find().sort({createdAt: 'desc'}).limit(limit).skip(startIndex)
     res.status(200).json({posts, currentPage:Number(page), totalPages: Math.ceil(total/limit)})    
 }

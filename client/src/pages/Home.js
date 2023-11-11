@@ -29,7 +29,6 @@ const Home = () => {
             setLoading(true)
             try{
             const res = await instance.get(`/posts?page=${page}`)
-            console.log(res)
             setData(prev => ({...prev,posts:res.data.posts,totalPages:res.data.totalPages}))
             setLoading(false)
             } 

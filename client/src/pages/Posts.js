@@ -33,9 +33,14 @@ const Posts = () => {
                 .catch(err => console.log(err))
                 setData({posts:res.data.data})
             }else{   
+                try{
                 const res = await instance.get(`/posts/?page=${page}`)
-                .catch(err => console.log(err))
-                setData(prev => ({...prev,posts:res.data.data,totalPages:res.data.totalPages}))
+
+                setData(prev => ({...prev,posts:res.data.posts,totalPages:res.data.totalPages}))
+                 }catch(err) {
+                     console.log(err)
+                 }
+               
             }
             setLoading(false)
         }
